@@ -67,12 +67,22 @@ psql -c 'create database SOS;' -U postgres
 #### Config
 - Crear el archivo `application-default.properties` en la ruta `/back/src/main/resources/`. Configurando url, usuario y contraseña:
 
-El puerto sera `6543` si usaste Docker, y si no `5432`
+Si usaste Docker, el puerto y las credenciales serian:
+```groovy
+spring.datasource.url=jdbc:postgresql://localhost:6543/sos
+spring.datasource.username=openminded
+spring.datasource.password=openheart
+```
+
+Si usas postgresql directo:
 ```groovy
 spring.datasource.url=jdbc:postgresql://localhost:5432/sos
 spring.datasource.username=postgres
 spring.datasource.password=root
+```
 
+Ademas para ambos casos hay que agregar al final:
+```groovy
 logging.appender.email.username=""
 logging.appender.email.password=""
 logging.appender.email.to=""

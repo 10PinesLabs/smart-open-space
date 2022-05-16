@@ -132,7 +132,7 @@ const MyTalks = () => {
   const [showQuerySpeaker, setShowQuerySpeaker] = useState(false);
   const [speaker, setSpeaker] = useState();
   const {
-    data: [os, assignedSlots, myTalks = []] = [],
+    data: [openSpace, assignedSlots, myTalks = []] = [],
     isPending,
     isRejected,
     reload: reloadMyTalks,
@@ -148,14 +148,15 @@ const MyTalks = () => {
 
   if (isRejected) return <RedirectToRoot />;
 
-  const amTheOrganizer = os && user && os.organizer.id === user.id;
-  const isAssigned = idTalk => assignedSlots.some(s => s.talk.id === idTalk);
-  const isEnqueue = idTalk => queue.some(t => t.id === idTalk);
-  const isMyTalk = talk => myTalks.some(t => t.id === talk.id);
+  const amTheOrganizer = openSpace && user && openSpace.organizer.id === user.id;
+  const isAssigned = (idTalk) => assignedSlots.some((slot) => slot.talk.id === idTalk);
+  const isEnqueue = (idTalk) => queue.some((talk) => talk.id === idTalk);
+  const isMyTalk = (talk) => myTalks.some((eachTalk) => eachTalk.id === talk.id);
   const myEnqueuedTalk = () => queue.find(isMyTalk);
-  const hasAnother = idTalk => !!myEnqueuedTalk() && myEnqueuedTalk().id !== idTalk;
+  const hasAnother = (idTalk) => !!myEnqueuedTalk() && myEnqueuedTalk().id !== idTalk;
   const place = () => queue.findIndex(isMyTalk);
-  const isToSchedule = idTalk => os.toSchedule.some(t => t.id === idTalk);
+  const isToSchedule = (idTalk) =>
+    openSpace.toSchedule.some((talk) => talk.id === idTalk);
 
   const onCloseQuerySpeaker = () => {
     setShowQuerySpeaker(false);
@@ -168,17 +169,20 @@ const MyTalks = () => {
     <>
       <MainHeader>
         <MainHeader.TitleLink onClick={pushToOS}>
-          {!os ? <TinySpinner /> : os.name}
+          {!openSpace ? <TinySpinner /> : openSpace.name}
         </MainHeader.TitleLink>
         <MainHeader.SubTitle
           icon={TalkIcon}
           label={amTheOrganizer ? 'GESTIONAR CHARLAS' : 'MIS CHARLAS'}
         />
+        <MainHeader.Description
+          description={!openSpace ? <TinySpinner /> : openSpace.description}
+        />
         <MainHeader.Buttons>
-          {hasTalks && os && !os.finishedQueue && (
+          {hasTalks && openSpace && !openSpace.finishedQueue && (
             <MainHeader.ButtonNew label="Charla" key="newTalk" onClick={pushToNewTalk} />
           )}
-          {os && !os.finishedQueue && amTheOrganizer && (
+          {openSpace && !openSpace.finishedQueue && amTheOrganizer && (
             <MainHeader.ButtonNew
               color="accent-1"
               label="Charla para Orador"
@@ -191,30 +195,30 @@ const MyTalks = () => {
       {!queue || (!hasTalks && isPending) ? (
         <Spinner />
       ) : !hasTalks ? (
-        os && <EmptyTalk onClick={pushToNewTalk} />
+        openSpace && <EmptyTalk onClick={pushToNewTalk} />
       ) : (
         <>
           {queue.length > 0 && myEnqueuedTalk() && (
             <MyEnqueuedTalk
               description={myEnqueuedTalk().description}
-              onFinish={() => nextTalk(os.id)}
+              onFinish={() => nextTalk(openSpace.id)}
               place={place()}
               title={myEnqueuedTalk().name}
             />
           )}
           <MyGrid>
-            {(amTheOrganizer ? talks : myTalks).map(talk => (
+            {(amTheOrganizer ? talks : myTalks).map((talk) => (
               <Talk
-                activeQueue={os.activeQueue}
+                activeQueue={openSpace.activeQueue}
                 assigned={isAssigned(talk.id)}
                 enqueued={isEnqueue(talk.id)}
-                freeSlots={os.freeSlots}
+                freeSlots={openSpace.freeSlots}
                 hasAnother={hasAnother(talk.id)}
                 key={talk.id}
                 onEnqueue={reload}
                 onSchedule={pushToOS}
                 toSchedule={isToSchedule(talk.id)}
-                assignableSlots={os.assignableSlots}
+                assignableSlots={openSpace.assignableSlots}
                 {...talk}
               />
             ))}
@@ -244,8 +248,8 @@ const MyTalks = () => {
                         Promise.resolve(speakerId)
                       )
                   )
-                    .then(speakerId =>
-                      createTalkFor(speakerId, os.id, {
+                    .then((speakerId) =>
+                      createTalkFor(speakerId, openSpace.id, {
                         name: title,
                         description,
                       })
@@ -267,7 +271,7 @@ const MyTalks = () => {
               <MyForm
                 onSecondary={onCloseQuerySpeaker}
                 onSubmit={({ value: { email } }) =>
-                  identify(email).then(data => {
+                  identify(email).then((data) => {
                     setSpeaker(data || email);
                     return data;
                   })

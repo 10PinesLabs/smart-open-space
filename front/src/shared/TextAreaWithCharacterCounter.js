@@ -1,7 +1,7 @@
 import { Text, TextArea } from 'grommet';
 import React from 'react';
 
-export const TextAreaWithCounter = ({ ...props }) => {
+export const TextAreaWithCharacterCounter = ({ ...props }) => {
   return (
     <>
       <TextArea {...props} />

@@ -40,12 +40,12 @@ const Identify = ({ onExit }) => {
 
   const onRegister = ({ value: { name } }) => register({ email, name }).then(onExit);
 
-  const onIdentify = ({ value: { email: e } }) =>
-    identify(e).then(data => {
+  const onIdentify = ({ value: { email } }) =>
+    identify(email).then((data) => {
       if (data) {
         onExit();
       } else {
-        setEmail(e);
+        setEmail(email);
       }
       return data;
     });
@@ -77,7 +77,7 @@ const QueryForm = ({ title, subTitle, onExit, onSubmit }) => (
       </Box>
       <MyForm
         onSecondary={onExit}
-        onSubmit={data => {
+        onSubmit={(data) => {
           onExit();
           return onSubmit(data);
         }}
@@ -102,7 +102,7 @@ const ButtonMyTalks = ({ amTheOrganizer }) => (
 );
 ButtonMyTalks.propTypes = { amTheOrganizer: PropTypes.bool.isRequired };
 
-const ButtonSingIn = props => (
+const ButtonSingIn = (props) => (
   <MainHeader.Button
     color="accent-3"
     icon={<UserAddIcon />}
@@ -111,7 +111,7 @@ const ButtonSingIn = props => (
   />
 );
 
-const ButtonStartMarketplace = props => (
+const ButtonStartMarketplace = (props) => (
   <MainHeader.ButtonLoading
     color="accent-4"
     icon={<CartIcon />}
@@ -129,7 +129,7 @@ const ButtonProjector = () => (
   />
 );
 
-const ButtonFinishMarketplace = props => (
+const ButtonFinishMarketplace = (props) => (
   <MainHeader.ButtonLoading
     color="neutral-4"
     icon={<CartIcon />}
@@ -143,7 +143,16 @@ const OpenSpace = () => {
   const [showQuery, setShowQuery] = useState(false);
   const [showIdentify, setShowIdentify] = useState(false);
   const {
-    data: { id, activeQueue, finishedQueue, name, organizer, pendingQueue, slots } = {},
+    data: {
+      id,
+      activeQueue,
+      finishedQueue,
+      name,
+      description,
+      organizer,
+      pendingQueue,
+      slots,
+    } = {},
     isPending,
     isRejected,
     setData,
@@ -183,6 +192,7 @@ const OpenSpace = () => {
         ) : (
           <MainHeader.SubTitle icon={ScheduleIcon} label="AGENDA" />
         )}
+        <MainHeader.Description description={description} />
         {finishedQueue && <MainHeader.SubTitle label="Marketplace finalizado" />}
         <MainHeader.Buttons>
           {user ? (

@@ -152,7 +152,7 @@ const EditOpenSpace = () => {
       </MainHeader>
       <MyForm onSecondary={history.goBack} onSubmit={onSubmit} value={initialValues}>
         <MyForm.Text placeholder="¿Como se va a llamar?" />
-        <MyForm.TextAreaWithCounter
+        <MyForm.TextAreaWithCharacterCounter
           placeholder="Añade una descripcion."
           maxLength={1000}
         />

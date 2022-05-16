@@ -4,7 +4,6 @@ import com.jayway.jsonpath.JsonPath
 import com.sos.smartopenspace.domain.*
 import com.sos.smartopenspace.persistence.OpenSpaceRepository
 import com.sos.smartopenspace.persistence.UserRepository
-import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc
@@ -21,7 +20,6 @@ import java.time.LocalTime
 @SpringBootTest
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
-@DisplayName("an OS controller")
 @Transactional
 class OpenSpaceControllerTest {
     private fun anyUser(oss: MutableSet<OpenSpace> = mutableSetOf(), talks: MutableSet<Talk> = mutableSetOf()) =
@@ -38,27 +36,31 @@ class OpenSpaceControllerTest {
     lateinit var repoOpenSpace: OpenSpaceRepository
 
     @Test
-    fun `when creates an OS with 1000 characters description get a 200`() {
+    fun `creating a valid OpenSpace returns an ok status response`() {
         val user = repoUser.save(anyUser())
-        val osBody = generateCreateBody("W".repeat(1000))
-        mockMvc.perform(
+        val description = "W".repeat(1000)
+        val openSpaceBody = generateCreateBody(description)
+        val entityResponse = mockMvc.perform(
             MockMvcRequestBuilders.post("/openSpace/${user.id}")
                 .contentType("application/json")
-                .content(osBody)
+                .content(openSpaceBody)
+        ).andReturn().response
+        val id = JsonPath.read<Int>(entityResponse.contentAsString, "$.id")
+        mockMvc.perform(
+            MockMvcRequestBuilders.get("/openSpace/${id}")
         )
             .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
-
+            .andExpect(MockMvcResultMatchers.jsonPath("$.description").value(description))
     }
 
     @Test
-    fun `when creates an OS with 1001 characters description get a 400`() {
+    fun `creating an invalid OpenSpace returns a bad request response`() {
         val user = repoUser.save(anyUser())
-        val osBody = generateCreateBody("W".repeat(1001))
+        val openSpaceBody = generateCreateBody("W".repeat(1001))
         mockMvc.perform(
             MockMvcRequestBuilders.post("/openSpace/${user.id}")
                 .contentType("application/json")
-                .content(osBody)
+                .content(openSpaceBody)
         )
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
     }
@@ -117,7 +119,8 @@ class OpenSpaceControllerTest {
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
     }
 
-    private fun anyOS(): OpenSpace {
+    
+    private fun anyOpenSpace(): OpenSpace {
         return OpenSpace(
             "os", LocalDate.now(), setOf(Room("1")),
             setOf(
