@@ -24,7 +24,6 @@ const DescriptionInfo = ({ title, speaker, info, onClose, meetingLink }) => (
           color="dark-1"
           href={meetingLink}
           label={meetingLink}
-          target="_blank"
         />
       )}
     </Box>
@@ -49,10 +48,10 @@ const ButtonMoreInfo = ({ onClick }) => (
 );
 ButtonMoreInfo.propTypes = { onClick: PropTypes.func.isRequired };
 
-const Talk = ({ talk: { description, name, speaker, meetingLink }, room }) => {
+const Talk = ({ talk: { description, name, speaker, meeting }, room }) => {
   const [open, setOpen] = useState(false);
 
-  let shouldDisplayMoreInfo = description || meetingLink;
+  let shouldDisplayMoreInfo = description || meeting;
   return (
     <>
       <Card
@@ -76,7 +75,7 @@ const Talk = ({ talk: { description, name, speaker, meetingLink }, room }) => {
           speaker={speaker.name}
           info={description}
           onClose={() => setOpen(false)}
-          meetingLink={meetingLink}
+          meetingLink={meeting}
         />
       )}
     </>

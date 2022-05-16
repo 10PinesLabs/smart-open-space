@@ -10,6 +10,7 @@ import { TinySpinner } from '#shared/Spinner';
 import Row from './Row';
 import RowBetween from './RowBetween';
 import { validateUrl } from '#helpers/validateUrl';
+
 import { TextAreaWithCharacterCounter } from '#shared/TextAreaWithCharacterCounter';
 
 
@@ -35,7 +36,7 @@ const MyFieldMeeting = (props) => (
   <MyField
     icon={<LinkIcon />}
     label="Meeting"
-    name="meetingLink"
+    name="meeting"
     validate={validateUrl}
     required={false}
     {...props}

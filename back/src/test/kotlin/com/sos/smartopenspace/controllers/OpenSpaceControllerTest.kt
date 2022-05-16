@@ -119,61 +119,6 @@ class OpenSpaceControllerTest {
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
     }
 
-    @Test
-    fun `Asking for an OS and we get it with description`() {
-        val user = repoUser.save(anyUser())
-        val osBody = generateCreateBody("Test")
-        val entityResponse = mockMvc.perform(
-            MockMvcRequestBuilders.post("/openSpace/${user.id}")
-                .contentType("application/json")
-                .content(osBody)
-        ).andReturn().response
-        val id = JsonPath.read<Int>(entityResponse.contentAsString, "$.id")
-        mockMvc.perform(
-            MockMvcRequestBuilders.get("/openSpace/${id}")
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.jsonPath("$.description").value("Test"))
-    }
-
-    @Test
-    fun `creating a valid talk returns an OK status response`() {
-        val user = repoUser.save(anyUser())
-
-        val anOpenSpace = repoOpenSpace.save(anyOS())
-
-        val aMeetingLink = "https://aLink"
-        val entityResponse = mockMvc.perform(
-            MockMvcRequestBuilders.post("/openSpace/talk/${user.id}/${anOpenSpace.id}")
-                .contentType("application/json")
-                .content(generateTalkBody(aMeetingLink))
-        ).andReturn().response
-
-        val talkId = JsonPath.read<Int>(entityResponse.contentAsString, "$.id")
-
-        mockMvc.perform(
-            MockMvcRequestBuilders.get("/openSpace/talks/${anOpenSpace.id}")
-        )
-            .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(talkId))
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].meetingLink").value(aMeetingLink))
-    }
-
-    @Test
-    fun `creating an invalid talk return an bad request status`() {
-        val user = repoUser.save(anyUser())
-        val anOpenSpace = repoOpenSpace.save(anyOS())
-        val anInvalidLink = "invalid link"
-
-        mockMvc.perform(
-            MockMvcRequestBuilders.post("/openSpace/talk/${user.id}/${anOpenSpace.id}")
-                .contentType("application/json")
-                .content(generateTalkBody(anInvalidLink))
-        )
-            .andExpect(MockMvcResultMatchers.status().isBadRequest)
-    }
-
-    
     private fun anyOpenSpace(): OpenSpace {
         return OpenSpace(
             "os", LocalDate.now(), setOf(Room("1")),
@@ -209,10 +154,7 @@ class OpenSpaceControllerTest {
 
     private fun generateTalkBody(aMeeting: String): String {
         return """
-            {
-                "name": "asdf",
-                "meetingLink": "$aMeeting"
-            }
+            {"name":"asdf","meeting":"$aMeeting"}
         """.trimIndent()
     }
 }

@@ -24,8 +24,7 @@ class Talk(
   @GeneratedValue
   val id: Long = 0,
 
-  @Column(name = "meeting")
-  val meetingLink: URL? = null
+  val meeting: URL? = null
 ) {
   @ManyToOne
   lateinit var speaker: User
