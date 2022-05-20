@@ -12,7 +12,7 @@
             <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
         </layout>
     </appender>
-
+<!--
     <appender name="Email" class="ch.qos.logback.classic.net.SMTPAppender">
         <smtpHost>smtp.gmail.com</smtpHost>
         <smtpPort>587</smtpPort>
@@ -27,10 +27,10 @@
             <pattern>%date %-5level %logger{35} - %message%n</pattern>
         </layout>
     </appender>
-
+_-->
     <root level="info">
         <appender-ref ref="Console"/>
-        <appender-ref ref="Email" />
+  <!--      <appender-ref ref="Email" />-->
     </root>
 
 </configuration>
