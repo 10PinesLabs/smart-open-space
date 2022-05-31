@@ -1,5 +1,6 @@
 package com.sos.smartopenspace.domain
 
+import com.sos.smartopenspace.anOpenSpace
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
@@ -100,7 +101,63 @@ class OpenSpaceTest {
 
         openSpace.addTalk(talk)
 
-        openSpace.containsTalk(talk)
+        assertTrue(openSpace.containsTalk(talk))
+    }
+
+    @Test
+    fun `an open space with no tracks cant add a talk with track`() {
+        val organizer = anyUser()
+        val openSpace = anyOpenSpaceWith(organizer)
+        openSpace.toggleCallForPapers(organizer)
+        val aTrack = Track(name = "track", color = "#FFFFFF")
+        val aTalk = Talk("Talk", track = aTrack)
+
+        assertThrows<NotValidTrackForOpenSpaceException> {
+            openSpace.addTalk(aTalk)
+        }
+    }
+
+    @Test
+    fun `an open space with tracks cant add a talk with a different track`() {
+        val aTrack = Track(name = "track", color = "#FFFFFF")
+        val anotherTrack = Track(name = "another track", color = "#000000")
+        val organizer = anyUser()
+        val openSpace = anOpenSpace(tracks = setOf(aTrack))
+        organizer.addOpenSpace(openSpace)
+        openSpace.toggleCallForPapers(organizer)
+        val aTalk = Talk("Talk", track = anotherTrack)
+
+        assertThrows<NotValidTrackForOpenSpaceException> {
+            openSpace.addTalk(aTalk)
+        }
+    }
+
+    @Test
+    fun `an open space with tracks cant add a talk without track`() {
+        val aTrack = Track(name = "track", color = "#FFFFFF")
+        val organizer = anyUser()
+        val openSpace = anOpenSpace(tracks = setOf(aTrack))
+        organizer.addOpenSpace(openSpace)
+        openSpace.toggleCallForPapers(organizer)
+        val aTalk = Talk("Talk")
+
+        assertThrows<NotValidTrackForOpenSpaceException> {
+            openSpace.addTalk(aTalk)
+        }
+    }
+
+    @Test
+    fun `an open space with tracks can add a talk with track`() {
+        val aTrack = Track(name = "track", color = "#FFFFFF")
+        val organizer = anyUser()
+        val openSpace = anOpenSpace(tracks = setOf(aTrack))
+        organizer.addOpenSpace(openSpace)
+        openSpace.toggleCallForPapers(organizer)
+        val aTalk = Talk("Talk", track = aTrack)
+
+        openSpace.addTalk(aTalk)
+
+        assertTrue(openSpace.containsTalk(aTalk))
     }
 
     @Test
