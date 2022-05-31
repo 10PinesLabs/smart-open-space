@@ -21,4 +21,22 @@ class Track(
     @GeneratedValue
     var id: Long = 0
 ) {
+    override fun equals(other: Any?): Boolean {
+        if (other == null) return false
+
+        val otherTalk: Track = other as Track
+
+        return otherTalk.id == this.id &&
+                otherTalk.name == this.name &&
+                otherTalk.color == this.color &&
+                otherTalk.description == this.description
+    }
+
+    override fun hashCode(): Int {
+        var result = name.hashCode()
+        result = 31 * result + description.hashCode()
+        result = 31 * result + color.hashCode()
+        result = 31 * result + id.hashCode()
+        return result
+    }
 }

@@ -8,6 +8,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
 import javax.persistence.ManyToOne
+import javax.validation.Valid
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 
@@ -26,7 +27,8 @@ class Talk(
 
   val meetingLink: URL? = null,
 
-  @Transient
+  @field:Valid
+  @ManyToOne
   val track: Track? = null
 ) {
   @ManyToOne
