@@ -25,7 +25,7 @@ class UserData(
 data class Data(val data: User?)
 
 @RestController
-@RequestMapping("user")
+@RequestMapping("/undefined/user") // TODO: Revert undefined prefix
 class UserServiceREST(private val userService: UserService) {
   @PostMapping
   fun create(@Valid @RequestBody user: User) = userService.create(user)

@@ -20,7 +20,8 @@
     "start": "serve -s dist",
     "watch": "webpack-dev-server --progress --open --hot --port 1234",
     "build": "webpack --config webpack.prod.js",
-    "heroku-postbuild": "yarn build"
+    "heroku-postbuild": "yarn build",
+    "build-app": "npm run build"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",

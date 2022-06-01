@@ -68,3 +68,22 @@ val testCoverage by tasks.registering {
   dependsOn(":test", ":jacocoTestReport")
   tasks.findByName("jacocoTestReport")?.mustRunAfter(tasks.findByName("test"))
 }
+
+tasks.register<Copy>("processFrontendResources") {
+  // Directory containing the artifacts in the frontend project
+  var frontendBuildDir = file("${project(":front").buildDir}/../dist")
+  // Directory where the frontend artifacts must be copied to be packaged alltogether with the backend by the "war"
+  // plugin.
+  var frontendResourcesDir = file("${project.buildDir}/resources/main/public")
+
+  group = "Frontend"
+  description = "Process frontend resources"
+  dependsOn(project(":front").tasks.named("assembleFrontend"))
+
+  from(frontendBuildDir)
+  into(frontendResourcesDir)
+}
+
+tasks.named("processResources") {
+  dependsOn(tasks.named("processFrontendResources"))
+}

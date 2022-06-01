@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("openSpace")
+@RequestMapping("/undefined/openSpace") // TODO: Revert undefined prefix
 class OpenSpaceController(private val openSpaceService: OpenSpaceService) {
   @PostMapping("/{userID}")
   fun create(@PathVariable userID: Long, @Valid @RequestBody openSpace: OpenSpace) = openSpaceService.create(userID, openSpace)

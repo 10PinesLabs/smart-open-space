@@ -1,2 +1,12 @@
 .directory 
 /db-data/
+
+.idea
+.DS_Store
+
+.gradle
+gradle/
+gradlew
+gradlew.bat
+
+front/node/

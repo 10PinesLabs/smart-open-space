@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController
 import java.time.LocalTime
 
 @RestController
-@RequestMapping("talk")
+@RequestMapping("/undefined/talk") // TODO: Revert undefined prefix
 class TalkController(private val talkService: TalkService) {
   @PutMapping("/schedule/{userID}/{talkID}/{roomID}/{time}")
   fun scheduleTalk(
