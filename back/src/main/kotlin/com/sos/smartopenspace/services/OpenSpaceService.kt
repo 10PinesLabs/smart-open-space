@@ -2,8 +2,11 @@ package com.sos.smartopenspace.services
 
 import com.sos.smartopenspace.domain.OpenSpace
 import com.sos.smartopenspace.domain.Talk
+import com.sos.smartopenspace.domain.Track
+import com.sos.smartopenspace.helpers.CreateTalkDTO
 import com.sos.smartopenspace.persistence.OpenSpaceRepository
 import com.sos.smartopenspace.persistence.TalkRepository
+import com.sos.smartopenspace.persistence.TrackRepository
 import com.sos.smartopenspace.websockets.QueueSocket
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -12,12 +15,14 @@ import org.springframework.transaction.annotation.Transactional
 class OpenSpaceNotFoundException : RuntimeException("OpenSpace no encontrado")
 class TalkNotFoundException : RuntimeException("Charla no encontrada")
 class RoomNotFoundException : RuntimeException("Sala no encontrada")
+class TrackNotFoundException : RuntimeException("Track no encontrado")
 
 @Service
 @Transactional
 class OpenSpaceService(
   private val openSpaceRepository: OpenSpaceRepository,
   private val talkRepository: TalkRepository,
+  private val trackRepository: TrackRepository,
   private val userService: UserService,
   private val queueSocket: QueueSocket
 ) {
@@ -34,7 +39,11 @@ class OpenSpaceService(
   @Transactional(readOnly = true)
   fun findById(id: Long) = openSpaceRepository.findByIdOrNull(id) ?: throw OpenSpaceNotFoundException()
 
-  fun createTalk(userID: Long, osID: Long, talk: Talk): Talk {
+  @Transactional(readOnly = true)
+  fun findTrackById(id: Long) = trackRepository.findByIdOrNull(id) ?: throw TrackNotFoundException()
+
+  fun createTalk(userID: Long, osID: Long, createTalkDTO: CreateTalkDTO): Talk {
+    val talk = createTalkFrom(createTalkDTO)
     findById(osID).addTalk(talk)
     findUser(userID).addTalk(talk)
     return talk
@@ -70,5 +79,17 @@ class OpenSpaceService(
     val user = findUser(userID)
     openSpace.toggleCallForPapers(user)
     return openSpace
+  }
+
+  private fun createTalkFrom(createTalkDTO: CreateTalkDTO): Talk {
+    val track: Track? = createTalkDTO.trackId?.let {
+      findTrackById(it)
+    }
+    return Talk(
+      name = createTalkDTO.name,
+      description = createTalkDTO.description,
+      meetingLink = createTalkDTO.meetingLink,
+      track = track
+    )
   }
 }

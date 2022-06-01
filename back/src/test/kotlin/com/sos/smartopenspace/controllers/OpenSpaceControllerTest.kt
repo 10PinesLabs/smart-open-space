@@ -212,7 +212,7 @@ class OpenSpaceControllerTest {
         return """
             {
                 "name": "asdf",
-                "meetingLink": "$aMeeting"
+                "meetingLink": "${aMeeting}"
             }
         """.trimIndent()
     }
@@ -222,11 +222,7 @@ class OpenSpaceControllerTest {
             {
                 "name": "a talk",
                 "meetingLink": "$aMeeting",
-                "track": {
-                    "name": "${track.name}",
-                    "description": "${track.description}",
-                    "color": "${track.color}"
-                }
+                "trackId": ${track.id}
             }
         """.trimIndent()
     }

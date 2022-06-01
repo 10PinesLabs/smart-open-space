@@ -1,7 +1,7 @@
 package com.sos.smartopenspace.controllers
 
 import com.sos.smartopenspace.domain.OpenSpace
-import com.sos.smartopenspace.domain.Talk
+import com.sos.smartopenspace.helpers.CreateTalkDTO
 import com.sos.smartopenspace.services.OpenSpaceService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,8 +19,8 @@ class OpenSpaceController(private val openSpaceService: OpenSpaceService) {
   fun create(@PathVariable userID: Long, @Valid @RequestBody openSpace: OpenSpace) = openSpaceService.create(userID, openSpace)
 
   @PostMapping("/talk/{userID}/{osID}")
-  fun createTalk(@PathVariable userID: Long, @PathVariable osID: Long, @Valid @RequestBody talk: Talk) =
-    openSpaceService.createTalk(userID, osID, talk)
+  fun createTalk(@PathVariable userID: Long, @PathVariable osID: Long, @Valid @RequestBody createTalkDTO: CreateTalkDTO) =
+    openSpaceService.createTalk(userID, osID, createTalkDTO)
 
   @GetMapping("/user/{userID}")
   fun findAllByUser(@PathVariable userID: Long) = openSpaceService.findAllByUser(userID)
