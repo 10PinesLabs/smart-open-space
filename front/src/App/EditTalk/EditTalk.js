@@ -37,7 +37,7 @@ const EditTalk = () => {
         <MyForm.Text label="Título" placeholder="¿De que trata tu charla?" />
         <MyForm.TextArea placeholder="Describí tu charla con mas detalle..." />
         <MyForm.Link label="Link" placeholder="Link a la reunion" />
-        {openSpace && (
+        {openSpace && openSpace.tracks.length > 0 && (
           <MyForm.Select
             label="Track"
             name="trackId"
