@@ -19,14 +19,8 @@ import { ButtonStartMarketplace } from './buttons/ButtonStartMarketplace';
 import { ButtonToSwitchCallForPapers } from './buttons/ButtonToSwitchCallForPapers';
 import { ButtonMyTalks } from './buttons/ButtonMyTalks';
 import { QueryForm } from './QueryForm';
-import * as PropTypes from 'prop-types';
-import { TrackWithTalks } from './TrackWithTalks';
+import { DisplayTalks } from './DisplayTalks';
 
-TrackWithTalks.propTypes = {
-  tracks: PropTypes.any,
-  activeCallForPapers: PropTypes.any,
-  filterBy: PropTypes.func,
-};
 const OpenSpace = () => {
   const user = useUser();
   const [showQuery, setShowQuery] = useState(false);
@@ -42,6 +36,7 @@ const OpenSpace = () => {
       organizer,
       pendingQueue,
       isActiveCallForPapers,
+      amountOfTalks,
     } = {},
     isPending,
     isRejected,
@@ -55,7 +50,6 @@ const OpenSpace = () => {
 
   const amTheOrganizer = user && organizer.id === user.id;
   const doFinishQueue = () => finishQueue(id).then(setData);
-
   const marketPlaceButtons = () =>
     (pendingQueue && (
       <ButtonStartMarketplace onClick={() => activateQueue(id).then(setData)} />
@@ -104,9 +98,11 @@ const OpenSpace = () => {
         </MainHeader.Buttons>
       </MainHeader>
       <Box margin={{ bottom: 'medium' }}>
-        {tracks.map((track) => (
-          <TrackWithTalks track={track} activeCallForPapers={isActiveCallForPapers} />
-        ))}
+        <DisplayTalks
+          amountOfTalks={amountOfTalks}
+          activeCallForPapers={isActiveCallForPapers}
+          tracks={tracks}
+        />
       </Box>
       {redirectToLogin && <RedirectToLoginFromOpenSpace openSpaceId={id} />}
       {showQuery && (
