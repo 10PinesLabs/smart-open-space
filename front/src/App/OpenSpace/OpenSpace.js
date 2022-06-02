@@ -12,7 +12,6 @@ import {
 import { ScheduleIcon } from '#shared/icons';
 import MainHeader from '#shared/MainHeader';
 import Spinner from '#shared/Spinner';
-import TalksGrid from './TalksGrid';
 import { ButtonSingIn } from '#shared/ButtonSingIn';
 import { ButtonFinishMarketplace } from './buttons/ButtonFinishMarketplace';
 import { ButtonProjector } from './buttons/ButtonProjector';
@@ -20,7 +19,14 @@ import { ButtonStartMarketplace } from './buttons/ButtonStartMarketplace';
 import { ButtonToSwitchCallForPapers } from './buttons/ButtonToSwitchCallForPapers';
 import { ButtonMyTalks } from './buttons/ButtonMyTalks';
 import { QueryForm } from './QueryForm';
+import * as PropTypes from 'prop-types';
+import { TrackWithTalks } from './TrackWithTalks';
 
+TrackWithTalks.propTypes = {
+  tracks: PropTypes.any,
+  activeCallForPapers: PropTypes.any,
+  filterBy: PropTypes.func,
+};
 const OpenSpace = () => {
   const user = useUser();
   const [showQuery, setShowQuery] = useState(false);
@@ -98,7 +104,9 @@ const OpenSpace = () => {
         </MainHeader.Buttons>
       </MainHeader>
       <Box margin={{ bottom: 'medium' }}>
-        <TalksGrid isActiveCallForPapers={isActiveCallForPapers} />
+        {tracks.map((track) => (
+          <TrackWithTalks track={track} activeCallForPapers={isActiveCallForPapers} />
+        ))}
       </Box>
       {redirectToLogin && <RedirectToLoginFromOpenSpace openSpaceId={id} />}
       {showQuery && (
