@@ -6,10 +6,10 @@ import React from 'react';
 
 export function DisplayTalks({ amountOfTalks, activeCallForPapers, tracks }) {
   const pushToNewTalk = usePushToNewTalk();
-  let shouldDisplayEmptyTalk = amountOfTalks === 0 && activeCallForPapers;
+  const shouldDisplayEmptyTalk = amountOfTalks === 0 && activeCallForPapers;
+  const shouldDisplayTrackWithTalks = tracks.length > 0;
   if (shouldDisplayEmptyTalk) return <EmptyTalk onClick={pushToNewTalk} />;
   else {
-    let shouldDisplayTrackWithTalks = tracks.length > 0;
     if (shouldDisplayTrackWithTalks)
       return tracks.map((track) => (
         <TrackWithTalks track={track} activeCallForPapers={activeCallForPapers} />
