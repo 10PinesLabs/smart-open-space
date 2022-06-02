@@ -11,6 +11,7 @@ function anyTalk(queue = [], slots = [], openSpace = anyOpenSpaceWithNoTalksSche
       id: 1,
       name: 'speaker',
     },
+    undefined,
     queue,
     slots,
     openSpace

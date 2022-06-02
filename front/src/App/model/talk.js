@@ -1,10 +1,21 @@
 export default class Talk {
-  constructor(id, name, description, meetingLink, speaker, queue, slots, openSpace) {
+  constructor(
+    id,
+    name,
+    description,
+    meetingLink,
+    speaker,
+    track,
+    queue,
+    slots,
+    openSpace
+  ) {
     this.id = id;
     this.name = name;
     this.description = description;
     this.meetingLink = meetingLink;
     this.speaker = speaker;
+    this.track = track;
     this.queue = queue;
     this.slots = slots;
     this.openSpace = openSpace;

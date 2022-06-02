@@ -49,14 +49,15 @@ const ButtonMoreInfo = ({ onClick }) => (
 );
 ButtonMoreInfo.propTypes = { onClick: PropTypes.func.isRequired };
 
-const Talk = ({ talk: { description, name, speaker, meetingLink }, room }) => {
+const Talk = ({ talk: { description, name, speaker, track, meetingLink }, room }) => {
   const [open, setOpen] = useState(false);
 
+  const color = track ? track.color : 'accent-3';
   let shouldDisplayMoreInfo = description || meetingLink;
   return (
     <>
       <Card
-        borderColor="accent-3"
+        borderColor={color}
         height={room ? '230px' : undefined}
         margin="xsmall"
         gap="small"

@@ -49,7 +49,9 @@ const Talk = ({
   const onSubmitExchange = ({ value: { time, room } }) =>
     exchangeTalk(talk.id, room.id, time).then(pushToOpenSpace);
 
-  const color = talk.isAssigned()
+  const color = talk.track
+    ? talk.track.color
+    : talk.isAssigned()
     ? 'status-ok'
     : `accent-${talk.isToSchedule() ? 3 : talk.isInqueue() ? 2 : 4}`;
 
