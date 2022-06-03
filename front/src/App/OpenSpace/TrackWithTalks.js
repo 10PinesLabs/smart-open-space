@@ -13,7 +13,5 @@ export function TrackWithTalks({ track }) {
 }
 
 TrackWithTalks.propTypes = {
-  tracks: PropTypes.any,
-  activeCallForPapers: PropTypes.any,
-  filterBy: PropTypes.func,
+  track: PropTypes.object.isRequired,
 };
