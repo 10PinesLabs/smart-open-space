@@ -6,7 +6,9 @@ import MyGrid from '#shared/MyGrid';
 import Spinner from '#shared/Spinner';
 import Talk from './Talk';
 
-const TalksGrid = ({ filterBy = () => true }) => {
+const noCriteria = () => true;
+
+const TalksGrid = ({ filterBy = noCriteria }) => {
   const { data: talks, isPending, isRejected } = useGetTalks();
   if (isPending) return <Spinner />;
   if (isRejected) return <RedirectToRoot />;
