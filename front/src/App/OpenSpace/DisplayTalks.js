@@ -7,7 +7,7 @@ import React from 'react';
 export function DisplayTalks({ amountOfTalks, activeCallForPapers, tracks }) {
   const pushToNewTalk = usePushToNewTalk();
   const shouldDisplayEmptyTalk = amountOfTalks === 0 && activeCallForPapers;
-  const shouldDisplayTrackWithTalks = tracks.length > 0;
+  const shouldDisplayTrackWithTalks = tracks.length > 0 && amountOfTalks > 0;
 
   if (shouldDisplayEmptyTalk) {
     return <EmptyTalk onClick={pushToNewTalk} />;
