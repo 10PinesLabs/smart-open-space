@@ -8,12 +8,16 @@ export function DisplayTalks({ amountOfTalks, activeCallForPapers, tracks }) {
   const pushToNewTalk = usePushToNewTalk();
   const shouldDisplayEmptyTalk = amountOfTalks === 0 && activeCallForPapers;
   const shouldDisplayTrackWithTalks = tracks.length > 0;
-  if (shouldDisplayEmptyTalk) return <EmptyTalk onClick={pushToNewTalk} />;
-  else {
-    if (shouldDisplayTrackWithTalks)
-      return tracks.map((track) => (
-        <TrackWithTalks track={track} activeCallForPapers={activeCallForPapers} />
-      ));
-    else return <TalksGrid />;
+
+  if (shouldDisplayEmptyTalk) {
+    return <EmptyTalk onClick={pushToNewTalk} />;
   }
+
+  if (shouldDisplayTrackWithTalks) {
+    return tracks.map((track) => (
+      <TrackWithTalks track={track} activeCallForPapers={activeCallForPapers} />
+    ));
+  }
+
+  return <TalksGrid />;
 }
