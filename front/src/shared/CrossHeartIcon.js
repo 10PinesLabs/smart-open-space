@@ -11,7 +11,7 @@ export const CrossHeartIcon = (props) => (
       aria-hidden="true"
     >
       <g
-        transform="translate(-30.000000,210.000000) scale(0.030000,-0.030000)"
+        transform="translate(-20.000000,200.000000) scale(0.028000,-0.028000)"
         fill="#000000"
         stroke="none"
       >

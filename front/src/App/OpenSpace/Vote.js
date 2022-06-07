@@ -1,6 +1,6 @@
 import RowBetween from '#shared/RowBetween';
 import { Button } from 'grommet';
-import { voteTalk } from '#api/os-client';
+import { unVoteTalk, voteTalk } from '#api/os-client';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useUser } from '#helpers/useAuth';
@@ -26,8 +26,9 @@ export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
       <Detail>{votes} votos</Detail>
       {canUnVote && (
         <Button
-          icon={<CrossHeartIcon color="#a83f39" />}
-          onClick={() => voteTalk(id).then()}
+          plain="false"
+          icon={<CrossHeartIcon color="status-error" />}
+          onClick={() => unVoteTalk(id).then(() => reloadTalks())}
         />
       )}
       <Detail>{votes} votos</Detail>
