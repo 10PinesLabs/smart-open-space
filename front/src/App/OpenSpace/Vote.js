@@ -6,12 +6,14 @@ import PropTypes from 'prop-types';
 import { useUser } from '#helpers/useAuth';
 import { PlusHeartIcon } from '#shared/PlusHeartIcon';
 import Detail from '#shared/Detail';
+import { CrossHeartIcon } from '#shared/CrossHeartIcon';
 
 export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
   const currentUser = useUser();
   const isCurrentUser = (user) => currentUser && user && user.id === currentUser.id;
   const alreadyVotedByTheCurrentUser = votingUsers.some((user) => isCurrentUser(user));
   const canVote = currentUser && !alreadyVotedByTheCurrentUser;
+  const canUnVote = !canVote;
 
   return (
     <RowBetween alignSelf="end">
@@ -19,6 +21,13 @@ export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
         <Button
           icon={<PlusHeartIcon />}
           onClick={() => voteTalk(id).then(() => reloadTalks())}
+        />
+      )}
+      <Detail>{votes} votos</Detail>
+      {canUnVote && (
+        <Button
+          icon={<CrossHeartIcon color="#a83f39" />}
+          onClick={() => voteTalk(id).then()}
         />
       )}
       <Detail>{votes} votos</Detail>
