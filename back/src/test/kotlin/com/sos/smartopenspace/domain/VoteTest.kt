@@ -34,5 +34,24 @@ class VoteTest {
         assertEquals(aTalk.votes(), 1)
     }
 
+    @Test
+    fun `a user unvotes a talk that he votes before`() {
+        val aTalk = Talk("charla sin votos")
+        val aUser = aUser()
+        aUser.vote(aTalk)
 
+        aTalk.beingUnvoted(aUser)
+
+        assertEquals(aTalk.votes(), 0)
+    }
+
+    @Test
+    fun `a user cannot unvote a talk that he doesnt vote before`() {
+        val aTalk = Talk("charla sin votos")
+        val aUser = aUser()
+
+        aTalk.beingUnvoted(aUser)
+
+        assertEquals(aTalk.votes(), 0)
+    }
 }
