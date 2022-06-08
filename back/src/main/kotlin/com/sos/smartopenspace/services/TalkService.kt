@@ -46,10 +46,12 @@ class TalkService(
   }
   
   fun unvoteTalk(talkID: Long, userID: Long): Talk {
-    val aTalk = findTalk(talkID)
-    val aUser = findUser(userID)
+    val talk = findTalk(talkID)
+    val user = findUser(userID)
 
-    aTalk.beingUnvoted(aUser)
+    talk.removeVoteBy(user)
+
+    return talk
   }
   
   fun voteTalk(talkID: Long, userID: Long): Talk {

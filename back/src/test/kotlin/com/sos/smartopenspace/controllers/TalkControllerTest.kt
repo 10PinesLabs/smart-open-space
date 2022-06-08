@@ -83,7 +83,7 @@ class TalkControllerTest {
         val aUser = anySavedUser()
         val talk = anySavedTalk()
         aUser.addTalk(talk)
-        talk.beingVoted(aUser)
+        talk.addVoteBy(aUser)
         talkRepository.save(talk)
 
         mockMvc.perform(

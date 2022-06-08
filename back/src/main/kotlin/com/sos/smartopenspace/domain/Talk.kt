@@ -63,7 +63,7 @@ class Talk(
     votingUsers.add(user)
   }
 
-  fun beingUnvoted(user: User) {
+  fun removeVoteBy(user: User) {
     votingUsers.remove(user)
   }
 }

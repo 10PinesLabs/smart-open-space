@@ -38,9 +38,9 @@ class VoteTest {
     fun `a user unvotes a talk that he votes before`() {
         val aTalk = Talk("charla sin votos")
         val aUser = aUser()
-        aTalk.beingVoted(aUser)
+        aTalk.addVoteBy(aUser)
 
-        aTalk.beingUnvoted(aUser)
+        aTalk.removeVoteBy(aUser)
 
         assertEquals(aTalk.votes(), 0)
     }
@@ -50,7 +50,7 @@ class VoteTest {
         val aTalk = Talk("charla sin votos")
         val aUser = aUser()
 
-        aTalk.beingUnvoted(aUser)
+        aTalk.removeVoteBy(aUser)
 
         assertEquals(aTalk.votes(), 0)
     }
