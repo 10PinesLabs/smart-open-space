@@ -24,7 +24,6 @@ export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
           onClick={() => voteTalk(id).then(() => reloadTalks())}
         />
       )}
-      <Detail>{votes} votos</Detail>
       {canUnVote && (
         <Button
           plain="false"
