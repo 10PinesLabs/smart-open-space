@@ -11,7 +11,7 @@ export const PlusHeartIcon = (props) => (
       aria-hidden="true"
     >
       <g
-        transform="translate(0.000000,100.000000) scale(0.020000, -0.020000)"
+        transform="translate(-10.000000,90.000000) scale(0.020000, -0.020000)"
         fill="#000000"
         stroke="none"
       >

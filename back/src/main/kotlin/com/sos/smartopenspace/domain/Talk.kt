@@ -59,7 +59,7 @@ class Talk(
     return votingUsers.size
   }
 
-  fun beingVoted(user: User) {
+  fun addVoteBy(user: User) {
     votingUsers.add(user)
   }
 

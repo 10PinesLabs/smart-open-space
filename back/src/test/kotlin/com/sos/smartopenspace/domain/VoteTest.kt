@@ -18,7 +18,7 @@ class VoteTest {
         val aTalk = Talk("charla sin votos")
         val aUser = aUser()
 
-        aUser.vote(aTalk)
+        aTalk.addVoteBy(aUser)
 
         assertEquals(aTalk.votes(), 1)
     }
@@ -28,8 +28,8 @@ class VoteTest {
         val aTalk = Talk("charla sin votos")
         val aUser = aUser()
 
-        aUser.vote(aTalk)
-        aUser.vote(aTalk)
+        aTalk.addVoteBy(aUser)
+        aTalk.addVoteBy(aUser)
 
         assertEquals(aTalk.votes(), 1)
     }
