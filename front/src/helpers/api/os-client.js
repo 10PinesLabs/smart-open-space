@@ -17,7 +17,7 @@ const createTalk = (osId, talkData) =>
 const voteTalk = (talkID) =>
   withUser(({ id: userID }) => put(`talk/${talkID}/user/${userID}/vote`));
 
-const unVoteTalk = (talkID) =>
+const unvoteTalk = (talkID) =>
   withUser(({ id: userID }) => put(`talk/${talkID}/user/${userID}/unvote`));
 
 const getAllOpenSpaces = () => withUser(({ id }) => get(`openSpace/user/${id}`));
@@ -77,5 +77,5 @@ export {
   exchangeTalk,
   startCallForPapers,
   voteTalk,
-  unVoteTalk,
+  unvoteTalk,
 };

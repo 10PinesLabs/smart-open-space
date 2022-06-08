@@ -1,6 +1,6 @@
 import RowBetween from '#shared/RowBetween';
 import { Button } from 'grommet';
-import { unVoteTalk, voteTalk } from '#api/os-client';
+import { unvoteTalk, voteTalk } from '#api/os-client';
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useUser } from '#helpers/useAuth';
@@ -13,7 +13,7 @@ export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
   const isCurrentUser = (user) => currentUser && user && user.id === currentUser.id;
   const alreadyVotedByTheCurrentUser = votingUsers.some((user) => isCurrentUser(user));
   const canVote = currentUser && !alreadyVotedByTheCurrentUser;
-  const canUnVote = currentUser && !canVote;
+  const canUnvote = currentUser && !canVote;
 
   return (
     <RowBetween alignSelf="end">
@@ -24,11 +24,11 @@ export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
           onClick={() => voteTalk(id).then(() => reloadTalks())}
         />
       )}
-      {canUnVote && (
+      {canUnvote && (
         <Button
           plain="false"
           icon={<CrossHeartIcon color="status-error" />}
-          onClick={() => unVoteTalk(id).then(() => reloadTalks())}
+          onClick={() => unvoteTalk(id).then(() => reloadTalks())}
         />
       )}
       <Detail>{votes} votos</Detail>
