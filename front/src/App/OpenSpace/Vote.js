@@ -13,7 +13,7 @@ export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
   const isCurrentUser = (user) => currentUser && user && user.id === currentUser.id;
   const alreadyVotedByTheCurrentUser = votingUsers.some((user) => isCurrentUser(user));
   const canVote = currentUser && !alreadyVotedByTheCurrentUser;
-  const canUnVote = !canVote;
+  const canUnVote = currentUser && !canVote;
 
   return (
     <RowBetween alignSelf="end">
