@@ -19,6 +19,7 @@ export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
     <RowBetween alignSelf="end">
       {canVote && (
         <Button
+          plain="false"
           icon={<PlusHeartIcon />}
           onClick={() => voteTalk(id).then(() => reloadTalks())}
         />
