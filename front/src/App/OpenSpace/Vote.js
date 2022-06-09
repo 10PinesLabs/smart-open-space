@@ -10,10 +10,9 @@ import { CrossHeartIcon } from '#shared/CrossHeartIcon';
 
 export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
   const currentUser = useUser();
-  const isCurrentUser = (user) => currentUser && user && user.id === currentUser.id;
+  const isCurrentUser = (user) => currentUser && user.id === currentUser.id;
   const alreadyVotedByTheCurrentUser = votingUsers.some((user) => isCurrentUser(user));
   const canVote = currentUser && !alreadyVotedByTheCurrentUser;
-  const canUnvote = currentUser && !canVote;
 
   return (
     <RowBetween alignSelf="end">
@@ -24,7 +23,7 @@ export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
           onClick={() => voteTalk(id).then(() => reloadTalks())}
         />
       )}
-      {canUnvote && (
+      {alreadyVotedByTheCurrentUser && (
         <Button
           plain="false"
           icon={<CrossHeartIcon color="status-error" />}
