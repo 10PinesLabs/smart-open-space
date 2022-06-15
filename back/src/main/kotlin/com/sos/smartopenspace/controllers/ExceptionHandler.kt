@@ -1,10 +1,7 @@
 package com.sos.smartopenspace.controllers
 
-import com.sos.smartopenspace.domain.CallForPapersClosedException
-import com.sos.smartopenspace.domain.NotTheOrganizerException
-import com.sos.smartopenspace.domain.TalkIsNotForScheduledException
+import com.sos.smartopenspace.domain.*
 import com.sos.smartopenspace.services.TalkNotFoundException
-import com.sos.smartopenspace.domain.UserDidntVoteThisTalkException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -23,6 +20,11 @@ class ExceptionHandler {
     @ExceptionHandler(CallForPapersClosedException::class)
     fun unprocessableEntityHandler(exception: Exception) : ResponseEntity<UnprocessableEntityException> {
         return ResponseEntity(UnprocessableEntityException(exception.message), HttpStatus.UNPROCESSABLE_ENTITY)
+    }
+
+    @ExceptionHandler(EmailAlreadyInUseException::class)
+    fun conflictHandler(exception: Exception) : ResponseEntity<UnprocessableEntityException> {
+        return ResponseEntity(UnprocessableEntityException(exception.message), HttpStatus.CONFLICT)
     }
 
 }
