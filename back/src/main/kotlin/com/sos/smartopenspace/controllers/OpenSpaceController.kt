@@ -27,7 +27,7 @@ class OpenSpaceController(private val openSpaceService: OpenSpaceService) {
   fun findById(@PathVariable id: Long) = openSpaceService.findById(id)
 
   @GetMapping("/talks/{userID}/{osID}")
-  fun findTalksByUser(@PathVariable userID: Long, @PathVariable osID: Long) = openSpaceService.findTalksByUser(userID, osID)
+  fun findTalksByUser(@PathVariable userID: Long, @PathVariable osID: Long) = openSpaceService.findTalksOfUserInOpenSpace(userID, osID)
 
   @GetMapping("/talks/{id}")
   fun findTalks(@PathVariable id: Long) = openSpaceService.findTalks(id)
