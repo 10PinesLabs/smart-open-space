@@ -22,7 +22,7 @@ class SlotTest {
     openSpace.activeQueue(organizer)
     talks.forEach {
       anyUser(it)
-      it.enqueue()
+      openSpace.enqueueTalk(it)
       openSpace.nextTalk(organizer)
     }
     return openSpace
@@ -31,10 +31,10 @@ class SlotTest {
   private fun anyOpenSpaceWithOrganizer(
     talks: MutableSet<Talk> = mutableSetOf(talk1, talk2)
   ): OpenSpace {
-    val OpenSpace = anOpenSpace(talks = talks.toMutableSet(), rooms = setOf(room1), slots = setOf(aSlot, otherSlot))
-    val organizer = User("augusto@sos.sos", "augusto", "Augusto", mutableSetOf(OpenSpace))
-    OpenSpace.activeQueue(organizer)
-    return OpenSpace
+    val openSpace = anOpenSpace(talks = talks.toMutableSet(), rooms = setOf(room1), slots = setOf(aSlot, otherSlot))
+    val organizer = User("augusto@sos.sos", "augusto", "Augusto", mutableSetOf(openSpace))
+    openSpace.activeQueue(organizer)
+    return openSpace
   }
 
   @Test

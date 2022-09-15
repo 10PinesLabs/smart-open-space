@@ -63,14 +63,16 @@ class User(
   }
 
   fun checkOwnershipOf(talk: Talk) {
-      if (this != talk.speaker)
+      if (!isOwnerOf(talk))
         throw UserNotOwnerOfTalkException()
   }
+
+  fun isOwnerOf(talk: Talk) = this == talk.speaker
 
   fun securePassword() {
     password = Hashing.sha256()
       .hashString(password, StandardCharsets.UTF_8)
-      .toString();
+      .toString()
   }
 
     fun removeTalk(talk: Talk) {

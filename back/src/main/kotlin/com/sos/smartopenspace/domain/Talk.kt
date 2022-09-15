@@ -1,6 +1,5 @@
 package com.sos.smartopenspace.domain
 
-import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.net.URL
 import javax.persistence.*
@@ -37,23 +36,7 @@ class Talk(
   @ManyToOne
   lateinit var speaker: User
 
-  @ManyToOne
-  @JsonIgnore
-  lateinit var openSpace: OpenSpace
-
-  fun schedule(user: User, slot: TalkSlot, room: Room): OpenSpace {
-    openSpace.scheduleTalk(this, user, slot, room)
-    return openSpace
-  }
-
-  fun exchange(room: Room, slot: TalkSlot): OpenSpace {
-    openSpace.exchangeSlot(this, room, slot)
-    return openSpace
-  }
-
-  fun enqueue(): OpenSpace = openSpace.enqueueTalk(this)
-
-  fun update(name: String, description: String, meetingLink: URL? = null, track: Track? = null) {
+  fun update(openSpace: OpenSpace, name: String, description: String, meetingLink: URL? = null, track: Track? = null) {
     openSpace.checkTrackIsValid(track)
     this.name = name
     this.description = description

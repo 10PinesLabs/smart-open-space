@@ -19,7 +19,7 @@ class TalkTest {
 
 
     assertThrows< NotValidTrackForOpenSpaceException > {
-      aTalk.update(name = aTalk.name, description = aTalk.description, track = aTrack)
+      aTalk.update(name = aTalk.name, description = aTalk.description, track = aTrack, openSpace = anOpenSpace)
     }
   }
 }

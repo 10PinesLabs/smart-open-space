@@ -25,18 +25,24 @@ class TalkService(
   private fun findOpenSpace(id: Long) = openSpaceRepository.findByIdOrNull(id) ?: throw OpenSpaceNotFoundException()
   private fun findTalk(id: Long) = talkRepository.findByIdOrNull(id) ?: throw TalkNotFoundException()
   private fun findRoom(id: Long) = roomRepository.findByIdOrNull(id) ?: throw RoomNotFoundException()
-  private fun findSlot(slotID: Long) = slotRepository.findByIdOrNull(slotID) ?: throw NotFoundException("No se encontro el slot con el id ${slotID}")
+
+  private fun findSlot(slotID: Long) =
+    slotRepository.findByIdOrNull(slotID) ?: throw NotFoundException("No se encontro el slot con el id ${slotID}")
 
   fun scheduleTalk(talkID: Long, userID: Long, slotID: Long, roomID: Long): OpenSpace {
-    val openSpace = findTalk(talkID).schedule(findUser(userID), findSlot(slotID), findRoom(roomID))
+    val openSpace = openSpaceRepository.findFirstOpenSpaceByTalkId(talkID)
+    openSpace.scheduleTalk(findTalk(talkID), findUser(userID), findSlot(slotID), findRoom(roomID))
     scheduleSocket.sendFor(openSpace)
+
     return openSpace
   }
 
 
   fun exchangeTalk(talkID: Long, roomID: Long, slotID: Long): OpenSpace {
-    val openSpace = findTalk(talkID).exchange(findRoom(roomID), findSlot(slotID))
+    val openSpace = openSpaceRepository.findFirstOpenSpaceByTalkId(talkID)
+    openSpace.exchangeSlot(findTalk(talkID), findRoom(roomID), findSlot(slotID))
     scheduleSocket.sendFor(openSpace)
+
     return openSpace
   }
 
@@ -63,12 +69,13 @@ class TalkService(
       name = createTalkDTO.name,
       description = createTalkDTO.description,
       meetingLink = createTalkDTO.meetingLink,
-      track = track
+      track = track,
+      openSpace = openSpaceRepository.findFirstOpenSpaceByTalkId(talkId)
     )
 
     return talk
   }
-  
+
   fun unvoteTalk(talkID: Long, userID: Long): Talk {
     val talk = findTalk(talkID)
     val user = findUser(userID)
@@ -89,7 +96,7 @@ class TalkService(
   fun findTrackById(id: Long) = trackRepository.findByIdOrNull(id) ?: throw TrackNotFoundException()
 
 
-    fun getTalk(talkID: Long): Talk {
-      return findTalk(talkID)
-    }
+  fun getTalk(talkID: Long): Talk {
+    return findTalk(talkID)
+  }
 }

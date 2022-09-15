@@ -1,10 +1,10 @@
 package com.sos.smartopenspace.repositories
 
 import com.sos.smartopenspace.aSavedTalk
+import com.sos.smartopenspace.anOpenSpace
 import com.sos.smartopenspace.domain.Talk
 import com.sos.smartopenspace.persistence.OpenSpaceRepository
 import com.sos.smartopenspace.persistence.TalkRepository
-import com.sos.smartopenspace.persistence.TrackRepository
 import com.sos.smartopenspace.persistence.UserRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
@@ -31,9 +31,6 @@ class TalkRepositoryTest {
     lateinit var repoUser: UserRepository
 
     @Autowired
-    lateinit var repoTrack: TrackRepository
-
-    @Autowired
     lateinit var entityManager: EntityManager
 
     @Test
@@ -58,11 +55,13 @@ class TalkRepositoryTest {
 
     @Test
     fun `a talk can be modified and its updated successfully`() {
-        val aTalk = aSavedTalk(repoTalk, repoOpenSpace, repoUser)
+        val openSpace = anOpenSpace()
+        repoOpenSpace.save(openSpace)
+        val aTalk = aSavedTalk(repoTalk, openSpace, repoUser)
         val changedDescription = "second description"
         val changedName = "second name"
 
-        aTalk.update(name = changedName, description = changedDescription)
+        aTalk.update(name = changedName, description = changedDescription, openSpace = openSpace)
         val sameTalk = repoTalk.findById(aTalk.id).get()
 
         assertEquals(changedDescription, sameTalk.description)
@@ -71,10 +70,12 @@ class TalkRepositoryTest {
 
     @Test
     fun `a talk cant be modified with an empty name`() {
-        val aTalk = aSavedTalk(repoTalk, repoOpenSpace, repoUser)
+        val openSpace = anOpenSpace()
+        repoOpenSpace.save(openSpace)
+        val aTalk = aSavedTalk(repoTalk, openSpace, repoUser)
         val emptyName = ""
 
-        aTalk.update(name = emptyName, description = aTalk.description)
+        aTalk.update(name = emptyName, description = aTalk.description, openSpace = openSpace)
 
         assertThrows<ConstraintViolationException> {
             repoTalk.save(aTalk)

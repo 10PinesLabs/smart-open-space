@@ -205,7 +205,7 @@ class TalkControllerTest {
   private fun anySavedOpenSpace() = openSpaceRepository.save(anOpenSpace())
 
   private fun aSavedUserWithTalk(talk: Talk) =
-    userRepository.save(aUser(mutableSetOf(), mutableSetOf(talk)))
+    userRepository.save(aUser(mutableSetOf(), mutableSetOf(talk), "Pepe@sos.sos"))
 
   private fun aSavedSlot(): Slot {
     return slotRepository.save(TalkSlot(LocalTime.parse("09:00"), LocalTime.parse("09:30"), LocalDate.now()))

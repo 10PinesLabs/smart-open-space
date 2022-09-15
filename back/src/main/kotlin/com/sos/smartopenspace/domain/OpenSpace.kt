@@ -31,7 +31,8 @@ class OpenSpace(
 
   @JsonIgnore
   @field:Valid
-  @OneToMany(mappedBy = "openSpace", cascade = [CascadeType.ALL])
+  @OneToMany(cascade = [CascadeType.ALL])
+  @JoinColumn(name = "open_space_id")
   val talks: MutableSet<Talk> = mutableSetOf(),
 
   @field:Column(length = 1000)
@@ -48,10 +49,6 @@ class OpenSpace(
   @Id @GeneratedValue
   val id: Long = 0
 ) {
-
-  init {
-    talks.forEach { it.openSpace = this }
-  }
 
   @ManyToOne
   lateinit var organizer: User
@@ -93,7 +90,6 @@ class OpenSpace(
     checkIsFinishedQueue()
     checkIsActiveCallForPapers()
     checkTrackIsValid(talk.track)
-    talk.openSpace = this
     talks.add(talk)
     return this
   }
@@ -223,6 +219,10 @@ class OpenSpace(
   @JsonProperty
   fun dates(): Set<LocalDate?> {
     return slots.map { it.date }.toSet()
+  }
+
+  fun getUserTalks(user: User): List<Talk> {
+    return talks.filter { talk -> user.isOwnerOf(talk) }
   }
 
   fun removeTalk(talk: Talk) {
