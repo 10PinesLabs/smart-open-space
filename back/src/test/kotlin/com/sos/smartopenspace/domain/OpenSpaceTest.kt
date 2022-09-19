@@ -26,8 +26,12 @@ class OpenSpaceTest {
         return openSpace
     }
 
-    private fun anyUser(oss: MutableSet<OpenSpace> = mutableSetOf(), talks: MutableSet<Talk> = mutableSetOf()) =
-        User("augusto@sos.sos", "augusto", "Augusto", oss, talks)
+    private fun anyUser(openSpaces: MutableSet<OpenSpace> = mutableSetOf(), talks: MutableSet<Talk> = mutableSetOf()): User {
+        val user = User("augusto@sos.sos", "augusto", "Augusto", talks)
+        openSpaces.forEach { user.addOpenSpace(it) }
+        return user
+    }
+
 
     @Test
     fun `an open space is created with necessary fields and contains them`() {

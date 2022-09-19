@@ -9,4 +9,6 @@ interface OpenSpaceRepository : CrudRepository<OpenSpace, Long> {
 
     @Query("SELECT os FROM OpenSpace os join os.talks tk WHERE tk.id = :talkId")
     fun findFirstOpenSpaceByTalkId(@Param("talkId") talkId: Long): OpenSpace
+
+    fun findAllByOrganizerId(userId: Long): List<OpenSpace>
 }

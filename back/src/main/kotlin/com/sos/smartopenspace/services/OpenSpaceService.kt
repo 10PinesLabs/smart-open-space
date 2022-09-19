@@ -36,7 +36,7 @@ class OpenSpaceService(
   }
 
   @Transactional(readOnly = true)
-  fun findAllByUser(userID: Long) = findUser(userID).openSpaces.toList()
+  fun findAllByUser(userID: Long) = openSpaceRepository.findAllByOrganizerId(userID)
 
   @Transactional(readOnly = true)
   fun findById(id: Long) = openSpaceRepository.findByIdOrNull(id) ?: throw OpenSpaceNotFoundException()

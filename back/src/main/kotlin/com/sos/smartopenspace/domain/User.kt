@@ -33,11 +33,6 @@ class User(
 
   @field:Valid
   @JsonIgnore
-  @OneToMany(mappedBy = "organizer", cascade = [CascadeType.ALL])
-  val openSpaces: MutableSet<OpenSpace> = mutableSetOf(),
-
-  @field:Valid
-  @JsonIgnore
   @OneToMany(mappedBy = "speaker", cascade = [CascadeType.ALL])
   val talks: MutableSet<Talk> = mutableSetOf(),
 
@@ -46,7 +41,6 @@ class User(
 ) {
 
   init {
-    openSpaces.forEach { it.organizer = this }
     talks.forEach { it.speaker = this }
   }
 
@@ -58,7 +52,6 @@ class User(
 
   fun addOpenSpace(openSpace: OpenSpace): User {
     openSpace.organizer = this
-    openSpaces.add(openSpace)
     return this
   }
 

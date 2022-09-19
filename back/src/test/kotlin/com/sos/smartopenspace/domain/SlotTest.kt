@@ -14,11 +14,12 @@ class SlotTest {
   private val otherSlot = TalkSlot(LocalTime.parse("09:30"), LocalTime.parse("09:45"), LocalDate.now())
   private val secondDaySlot = TalkSlot(LocalTime.parse("09:00"), LocalTime.parse("09:30"), LocalDate.now().plusDays(1))
 
-  private fun anyUser(talk: Talk) = User("augusto@sos.sos", "Augusto", "Augusto", mutableSetOf(), mutableSetOf(talk))
+  private fun anyUser(talk: Talk) = User("augusto@sos.sos", "Augusto", "Augusto", mutableSetOf(talk))
 
   private fun anyOpenSpaceWithActiveQueued(talks: Set<Talk>, slots: Set<Slot> = setOf(aSlot, otherSlot, secondDaySlot)): OpenSpace {
     val openSpace = anOpenSpace(talks = talks.toMutableSet(), rooms = setOf(room1), slots = slots)
-    val organizer = User("augusto@sos.sos", "augusto", "Augusto", mutableSetOf(openSpace))
+    val organizer = User("augusto@sos.sos", "augusto", "Augusto")
+    organizer.addOpenSpace(openSpace)
     openSpace.activeQueue(organizer)
     talks.forEach {
       anyUser(it)
@@ -32,7 +33,8 @@ class SlotTest {
     talks: MutableSet<Talk> = mutableSetOf(talk1, talk2)
   ): OpenSpace {
     val openSpace = anOpenSpace(talks = talks.toMutableSet(), rooms = setOf(room1), slots = setOf(aSlot, otherSlot))
-    val organizer = User("augusto@sos.sos", "augusto", "Augusto", mutableSetOf(openSpace))
+    val organizer = User("augusto@sos.sos", "augusto", "Augusto")
+    organizer.addOpenSpace(openSpace)
     openSpace.activeQueue(organizer)
     return openSpace
   }
