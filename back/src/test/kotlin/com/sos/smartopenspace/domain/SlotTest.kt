@@ -7,9 +7,10 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 class SlotTest {
+  private val user = User("anemail@gmail.com", "Pepe")
   private val room1 = Room("1")
-  private val talk1 = Talk("talk1")
-  private val talk2 = Talk("talk2")
+  private val talk1 = Talk("talk1", speaker = user)
+  private val talk2 = Talk("talk2", speaker = user)
   private val aSlot = TalkSlot(LocalTime.parse("09:00"), LocalTime.parse("09:30"), LocalDate.now())
   private val otherSlot = TalkSlot(LocalTime.parse("09:30"), LocalTime.parse("09:45"), LocalDate.now())
   private val secondDaySlot = TalkSlot(LocalTime.parse("09:00"), LocalTime.parse("09:30"), LocalDate.now().plusDays(1))
@@ -92,7 +93,7 @@ class SlotTest {
   fun `Asignar una charla que no pertenece al open space`() {
     val openSpace = anyOpenSpaceWithOrganizer()
     assertThrows(TalkDoesntBelongException::class.java) {
-      val talk = Talk("otra")
+      val talk = Talk("otra", speaker = user)
       openSpace.scheduleTalk(talk, anyUser(talk), aSlot, room1)
     }
   }

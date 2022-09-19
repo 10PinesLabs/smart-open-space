@@ -24,7 +24,10 @@ class Talk(
 
   @field:Valid
   @ManyToOne
-  var track: Track? = null
+  var track: Track? = null,
+
+  @ManyToOne
+  val speaker: User
 ) {
 
   @ManyToMany(fetch = FetchType.EAGER)
@@ -32,9 +35,6 @@ class Talk(
           joinColumns = [JoinColumn(name = "talk_id", referencedColumnName = "id")],
           inverseJoinColumns = [JoinColumn(name = "user_id", referencedColumnName = "id")])
   var votingUsers: MutableSet<User> = mutableSetOf()
-
-  @ManyToOne
-  lateinit var speaker: User
 
   fun update(openSpace: OpenSpace, name: String, description: String, meetingLink: URL? = null, track: Track? = null) {
     openSpace.checkTrackIsValid(track)

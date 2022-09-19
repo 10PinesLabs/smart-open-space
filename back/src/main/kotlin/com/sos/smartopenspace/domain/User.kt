@@ -32,7 +32,6 @@ class User(
 ) {
 
   fun addTalk(talk: Talk): User {
-    talk.speaker = this
     return this
   }
 

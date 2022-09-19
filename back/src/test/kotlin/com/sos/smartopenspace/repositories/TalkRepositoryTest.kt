@@ -1,6 +1,7 @@
 package com.sos.smartopenspace.repositories
 
 import com.sos.smartopenspace.aSavedTalk
+import com.sos.smartopenspace.aUser
 import com.sos.smartopenspace.anOpenSpace
 import com.sos.smartopenspace.domain.Talk
 import com.sos.smartopenspace.persistence.OpenSpaceRepository
@@ -35,7 +36,10 @@ class TalkRepositoryTest {
 
     @Test
     fun `a talk cant be created with an empty name`() {
-        val invalidTalk = Talk("")
+
+        val speaker = aUser()
+        val invalidTalk = Talk("", speaker = speaker)
+        repoUser.save(speaker)
 
         assertThrows<ConstraintViolationException> {
             repoTalk.save(invalidTalk)
@@ -45,7 +49,7 @@ class TalkRepositoryTest {
 
     @Test
     fun `a talk can be created with only a name and its saved successfully`() {
-        val aTalk = Talk("a name")
+        val aTalk = Talk("a name", speaker = aUser())
 
         repoTalk.save(aTalk)
         val sameTalk = repoTalk.findById(aTalk.id).get()

@@ -33,9 +33,8 @@ fun aSavedTalk(talkRepository: TalkRepository, openSpace: OpenSpace, repoUser: U
     repoUser.save(user)
     user.addOpenSpace(openSpace)
     openSpace.toggleCallForPapers(user)
-    val aTalk = Talk("a name", description = "first description")
+    val aTalk = Talk("a name", description = "first description", speaker = user)
     openSpace.addTalk(aTalk)
-    user.addTalk(aTalk)
     talkRepository.save(aTalk)
     return aTalk
 }

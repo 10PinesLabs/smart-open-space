@@ -51,9 +51,9 @@ class OpenSpaceService(
   fun findTalks(id: Long) = findById(id).talks.toList().sortedByDescending { it.votes() }
 
   fun createTalk(userID: Long, osID: Long, createTalkDTO: CreateTalkDTO): Talk {
-    val talk = createTalkFrom(createTalkDTO)
+    val user = findUser(userID)
+    val talk = createTalkFrom(createTalkDTO, user=user)
     findById(osID).addTalk(talk)
-    findUser(userID).addTalk(talk)
     return talk
   }
 
@@ -104,13 +104,14 @@ class OpenSpaceService(
     return openSpace
   }
 
-  private fun createTalkFrom(createTalkDTO: CreateTalkDTO): Talk {
+  private fun createTalkFrom(createTalkDTO: CreateTalkDTO, user: User): Talk {
     val track: Track? = findTrack(createTalkDTO.trackId)
     return Talk(
       name = createTalkDTO.name,
       description = createTalkDTO.description,
       meetingLink = createTalkDTO.meetingLink,
-      track = track
+      track = track,
+      speaker = user
     )
   }
 

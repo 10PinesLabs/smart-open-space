@@ -88,9 +88,10 @@ class OpenSpaceTest {
     @Test
     fun `an open space cannot add a talk when call for papers is closed`() {
         val openSpace = anyOpenSpace()
+        val user = anyUser()
 
         assertThrows(CallForPapersClosedException::class.java) {
-            openSpace.addTalk(Talk("Talk"))
+            openSpace.addTalk(Talk("Talk", speaker = user))
         }
     }
 
@@ -99,7 +100,7 @@ class OpenSpaceTest {
         val organizer = anyUser()
         val openSpace = anyOpenSpaceWith(organizer)
         openSpace.toggleCallForPapers(organizer)
-        val talk = Talk("Talk")
+        val talk = Talk("Talk", speaker = organizer)
 
         openSpace.addTalk(talk)
 
@@ -112,7 +113,7 @@ class OpenSpaceTest {
         val openSpace = anyOpenSpaceWith(organizer)
         openSpace.toggleCallForPapers(organizer)
         val aTrack = Track(name = "track", color = "#FFFFFF")
-        val aTalk = Talk("Talk", track = aTrack)
+        val aTalk = Talk("Talk", track = aTrack, speaker = organizer)
 
         assertThrows<NotValidTrackForOpenSpaceException> {
             openSpace.addTalk(aTalk)
@@ -127,7 +128,7 @@ class OpenSpaceTest {
         val openSpace = anOpenSpace(tracks = setOf(aTrack))
         organizer.addOpenSpace(openSpace)
         openSpace.toggleCallForPapers(organizer)
-        val aTalk = Talk("Talk", track = anotherTrack)
+        val aTalk = Talk("Talk", track = anotherTrack, speaker = organizer)
 
         assertThrows<NotValidTrackForOpenSpaceException> {
             openSpace.addTalk(aTalk)
@@ -141,7 +142,7 @@ class OpenSpaceTest {
         val openSpace = anOpenSpace(tracks = setOf(aTrack))
         organizer.addOpenSpace(openSpace)
         openSpace.toggleCallForPapers(organizer)
-        val aTalk = Talk("Talk")
+        val aTalk = Talk("Talk", speaker = organizer)
 
         assertThrows<NotValidTrackForOpenSpaceException> {
             openSpace.addTalk(aTalk)
@@ -155,7 +156,7 @@ class OpenSpaceTest {
         val openSpace = anOpenSpace(tracks = setOf(aTrack))
         organizer.addOpenSpace(openSpace)
         openSpace.toggleCallForPapers(organizer)
-        val aTalk = Talk("Talk", track = aTrack)
+        val aTalk = Talk("Talk", track = aTrack, speaker = organizer)
 
         openSpace.addTalk(aTalk)
 
