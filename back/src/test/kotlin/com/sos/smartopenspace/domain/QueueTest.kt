@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test
 class QueueTest {
 
   private fun anyUser(openSpaces: MutableSet<OpenSpace> = mutableSetOf(), talks: MutableSet<Talk> = mutableSetOf()): User {
-    val user = User("augusto@sos.sos", "augusto", "Augusto", talks)
+    val user = User("augusto@sos.sos", "augusto", "Augusto")
+    talks.forEach { user.addTalk(it) }
     openSpaces.forEach { user.addOpenSpace(it) }
     return user
   }

@@ -27,7 +27,8 @@ class OpenSpaceTest {
     }
 
     private fun anyUser(openSpaces: MutableSet<OpenSpace> = mutableSetOf(), talks: MutableSet<Talk> = mutableSetOf()): User {
-        val user = User("augusto@sos.sos", "augusto", "Augusto", talks)
+        val user = User("augusto@sos.sos", "augusto", "Augusto")
+        talks.forEach { user.addTalk(it) }
         openSpaces.forEach { user.addOpenSpace(it) }
         return user
     }
@@ -36,7 +37,6 @@ class OpenSpaceTest {
     @Test
     fun `an open space is created with necessary fields and contains them`() {
         val nameOpenSpace = "os"
-        val date = LocalDate.now()
         val openSpace = OpenSpace(
             nameOpenSpace, emptySet(), emptySet()
         )
@@ -47,7 +47,6 @@ class OpenSpaceTest {
     @Test
     fun `an open space is created with description and contains it`() {
         val nameOpenSpace = "os"
-        val date = LocalDate.now()
         val description = "A description"
         val openSpace = OpenSpace(
             nameOpenSpace, emptySet(), emptySet(),
