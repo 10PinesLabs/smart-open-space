@@ -59,9 +59,11 @@ class TalkRepositoryTest {
 
     @Test
     fun `a talk can be modified and its updated successfully`() {
-        val openSpace = anOpenSpace()
+        val user = aUser()
+        repoUser.save(user)
+        val openSpace = anOpenSpace(organizer = user)
         repoOpenSpace.save(openSpace)
-        val aTalk = aSavedTalk(repoTalk, openSpace, repoUser)
+        val aTalk = aSavedTalk(repoTalk, openSpace, user)
         val changedDescription = "second description"
         val changedName = "second name"
 
@@ -74,9 +76,11 @@ class TalkRepositoryTest {
 
     @Test
     fun `a talk cant be modified with an empty name`() {
-        val openSpace = anOpenSpace()
+        val user = aUser()
+        repoUser.save(user)
+        val openSpace = anOpenSpace(organizer = user)
         repoOpenSpace.save(openSpace)
-        val aTalk = aSavedTalk(repoTalk, openSpace, repoUser)
+        val aTalk = aSavedTalk(repoTalk, openSpace, user)
         val emptyName = ""
 
         aTalk.update(name = emptyName, description = aTalk.description, openSpace = openSpace)

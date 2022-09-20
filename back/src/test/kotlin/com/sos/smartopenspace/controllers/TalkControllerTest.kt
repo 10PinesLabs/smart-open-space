@@ -61,7 +61,7 @@ class TalkControllerTest {
   fun `when a talk cannot be scheduled it should return a bad request response`() {
     val organizer = anySavedUser()
     val talk = anySavedTalk(organizer)
-    val speaker = aSavedUserWithTalk(talk)
+    val speaker = aSavedUser()
     val openSpace = openSpaceRepository.save(anOpenSpaceWith(talk, organizer))
     val slot = openSpace.slots.first()
     val room = anySavedRoom()
@@ -93,9 +93,8 @@ class TalkControllerTest {
   fun `Asking for an specific talk returns an ok status`() {
     val organizer = anySavedUser()
     val talk = anySavedTalk(organizer)
-    val openSpace = anySavedOpenSpace()
-    organizer.addOpenSpace(openSpace)
-    aSavedUserWithTalk(talk)
+    anySavedOpenSpace()
+    aSavedUser()
 
     mockMvc.perform(
       MockMvcRequestBuilders.get("/talk/${talk.id}")
@@ -115,8 +114,7 @@ class TalkControllerTest {
   @Test
   fun `can update a talk correctly`() {
     val user = userRepository.save(aUser())
-    val anOpenSpace = anOpenSpace()
-    user.addOpenSpace(anOpenSpace)
+    val anOpenSpace = anOpenSpace(organizer = user)
     anOpenSpace.toggleCallForPapers(user)
     openSpaceRepository.save(anOpenSpace)
 
@@ -144,8 +142,7 @@ class TalkControllerTest {
   @Test
   fun `updating an inexistent talk returns a bad request status`() {
     val user = userRepository.save(aUser())
-    val anOpenSpace = anOpenSpace()
-    user.addOpenSpace(anOpenSpace)
+    val anOpenSpace = anOpenSpace(organizer = user)
     anOpenSpace.toggleCallForPapers(user)
     openSpaceRepository.save(anOpenSpace)
     val inexistentTalkId = 789
@@ -161,7 +158,6 @@ class TalkControllerTest {
   fun `a talk voted by user returns an ok status response and increase talk votes`() {
     val aUser = anySavedUser()
     val talk = anySavedTalk(aUser)
-    aUser.addTalk(talk)
 
     mockMvc.perform(
       MockMvcRequestBuilders.put("/talk/${talk.id}/user/${aUser.id}/vote")
@@ -173,7 +169,6 @@ class TalkControllerTest {
   fun `a talk unvoted by a user returns an ok status response and decrease talk votes`() {
     val aUser = anySavedUser()
     val talk = anySavedTalk(aUser)
-    aUser.addTalk(talk)
     talk.addVoteBy(aUser)
     talkRepository.save(talk)
 
@@ -187,7 +182,6 @@ class TalkControllerTest {
   fun `a talk cannot be unvoted by a user that didnt vote it returns a bad request`() {
     val aUser = anySavedUser()
     val talk = anySavedTalk(aUser)
-    aUser.addTalk(talk)
     talkRepository.save(talk)
 
     mockMvc.perform(
@@ -201,10 +195,10 @@ class TalkControllerTest {
 
   private fun anySavedUser() = userRepository.save(aUser())
 
-  private fun anySavedOpenSpace() = openSpaceRepository.save(anOpenSpace())
+  private fun anySavedOpenSpace() = openSpaceRepository.save(anOpenSpace(organizer = aUser()))
 
-  private fun aSavedUserWithTalk(talk: Talk) =
-    userRepository.save(aUser(mutableSetOf(), mutableSetOf(talk), "Pepe@sos.sos"))
+  private fun aSavedUser() =
+    userRepository.save(aUser("Pepe@sos.sos"))
 
   private fun aSavedSlot(): Slot {
     return slotRepository.save(TalkSlot(LocalTime.parse("09:00"), LocalTime.parse("09:30"), LocalDate.now()))

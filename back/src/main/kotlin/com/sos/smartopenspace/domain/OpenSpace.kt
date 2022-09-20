@@ -47,16 +47,16 @@ class OpenSpace(
   val urlImage: String = "",
 
   @Id @GeneratedValue
-  val id: Long = 0
-) {
+  val id: Long = 0,
 
   @ManyToOne
-  lateinit var organizer: User
+  val organizer: User
+) {
 
   @JsonIgnore
   @OneToMany(cascade = [CascadeType.ALL], orphanRemoval = true)
   @JoinColumn(name = "open_space_id")
-  val assignedSlots: MutableSet<AssignedSlot> = mutableSetOf()
+  val assignments: MutableSet<Assignment> = mutableSetOf()
 
   @OrderColumn
   @JsonIgnore
@@ -115,7 +115,7 @@ class OpenSpace(
       throw CallForPapersClosedException()
   }
 
-  private fun isBusySlot(room: Room, slot: Slot) = assignedSlots.any { it.startAt(slot.startTime) && it.hasDate(slot.date) && it.room == room }
+  private fun isBusySlot(room: Room, slot: Slot) = assignments.any { it.startAt(slot.startTime) && it.hasDate(slot.date) && it.room == room }
 
   private fun checkTalkBelongs(talk: Talk) {
     if (!containsTalk(talk))
@@ -129,23 +129,23 @@ class OpenSpace(
   private fun checkScheduleTalk(talk: Talk, user: User, slot: TalkSlot, room: Room) {
     checkTalkBelongs(talk)
     checkSlotBelongsToTheScheduleGrid(slot)
-    assignedSlots.any { it.talk == talk } && throw TalkAlreadyAssignedException()
+    assignments.any { it.talk == talk } && throw TalkAlreadyAssignedException()
     !toSchedule.contains(talk) && !isOrganizer(user) && throw TalkIsNotForScheduledException()
     isBusySlot(room, slot) && throw BusySlotException()
   }
 
-  fun scheduleTalk(talk: Talk, user: User, slot: TalkSlot, room: Room): AssignedSlot {
+  fun scheduleTalk(talk: Talk, user: User, slot: TalkSlot, room: Room): Assignment {
     checkScheduleTalk(talk, user, slot, room)
-    val assignedSlot = AssignedSlot(slot, room, talk)
-    assignedSlots.add(assignedSlot)
+    val assignment = Assignment(slot, room, talk)
+    assignments.add(assignment)
     toSchedule.remove(talk)
-    return assignedSlot
+    return assignment
   }
 
   fun exchangeSlot(talk: Talk, room: Room, slot: TalkSlot) {
     checkSlotBelongsToTheScheduleGrid(slot)
-    val current = assignedSlots.find { it.talk == talk } ?: throw TalkIsNotScheduledException()
-    assignedSlots.find { it.room == room && it.slot == slot }?.moveTo(current.slot, current.room)
+    val current = assignments.find { it.talk == talk } ?: throw TalkIsNotScheduledException()
+    assignments.find { it.room == room && it.slot == slot }?.moveTo(current.slot, current.room)
     current.moveTo(slot, room)
   }
 
@@ -226,7 +226,7 @@ class OpenSpace(
   }
 
   fun removeTalk(talk: Talk) {
-    assignedSlots.removeIf { it.talk.id == talk.id }
+    assignments.removeIf { it.talk.id == talk.id }
     queue.remove(talk)
     toSchedule.remove(talk)
     talks.remove(talk)
@@ -241,7 +241,7 @@ class OpenSpace(
   }
 
   fun hasAssignedSlots(): Boolean {
-    return assignedSlots.isNotEmpty()
+    return assignments.isNotEmpty()
   }
 }
 
