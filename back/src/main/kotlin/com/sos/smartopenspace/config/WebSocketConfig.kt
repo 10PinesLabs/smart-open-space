@@ -16,11 +16,11 @@ class WebSocketConfig(
   override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
     registry
       .addHandler(scheduleSocket, "/scheduleSocket")
-      .setAllowedOrigins("http://localhost:1234", "https://smartopenspace.herokuapp.com", "https://openspaces.10pines.com", "https://smartopenspace-10pines.herokuapp.com")
+      .setAllowedOrigins("http://localhost:1234", "https://smartopenspace.herokuapp.com", "https://openspaces.10pines.com", "https://smartopenspace-10pines.herokuapp.com", "https://smartopenspace.10pines.com")
       .withSockJS()
     registry
       .addHandler(queueSocket, "/queueSocket")
-      .setAllowedOrigins("http://localhost:1234", "https://smartopenspace.herokuapp.com", "https://openspaces.10pines.com", "https://smartopenspace-10pines.herokuapp.com")
+      .setAllowedOrigins("http://localhost:1234", "https://smartopenspace.herokuapp.com", "https://openspaces.10pines.com", "https://smartopenspace-10pines.herokuapp.com", "https://smartopenspace.10pines.com")
       .withSockJS()
   }
 }
