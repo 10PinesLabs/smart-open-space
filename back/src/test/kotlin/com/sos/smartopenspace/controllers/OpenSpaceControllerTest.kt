@@ -110,7 +110,7 @@ class OpenSpaceControllerTest {
     @Test
     fun `creating an invalid talk return an bad request status`() {
         val user = repoUser.save(aUser())
-        val anOpenSpace = repoOpenSpace.save(anyOpenSpace())
+        val anOpenSpace = repoOpenSpace.save(anyOpenSpace(user))
         val anInvalidLink = "invalid link"
 
         mockMvc.perform(
@@ -124,7 +124,7 @@ class OpenSpaceControllerTest {
     @Test
     fun `creating a talk when call for papers is closed return an unprocessable entity status`() {
         val user = repoUser.save(aUser())
-        val anOpenSpace = repoOpenSpace.save(anyOpenSpace())
+        val anOpenSpace = repoOpenSpace.save(anyOpenSpace(user))
         val aMeetingLink = "https://aLink"
 
         mockMvc.perform(
@@ -179,8 +179,7 @@ class OpenSpaceControllerTest {
     }
 
     private fun createOpenSpaceFor(user: User): OpenSpace {
-        val anOpenSpace = anOpenSpace()
-        user.addOpenSpace(anOpenSpace)
+        val anOpenSpace = anOpenSpace(organizer = user)
         repoOpenSpace.save(anOpenSpace)
         return anOpenSpace
     }
@@ -212,20 +211,19 @@ class OpenSpaceControllerTest {
 
     private fun anyOpenSpaceWith(organizer: User, tracks: Set<Track>? = null): OpenSpace {
         val openSpace: OpenSpace = if (tracks == null) {
-            anOpenSpace()
+            anOpenSpace(organizer = organizer)
         } else {
-            anOpenSpace(tracks = tracks)
+            anOpenSpace(tracks = tracks, organizer = organizer)
         }
-        organizer.addOpenSpace(openSpace)
         return openSpace
     }
 
-    private fun anyOpenSpace(): OpenSpace {
+    private fun anyOpenSpace(user: User): OpenSpace {
         return OpenSpace(
             "os", setOf(Room("1")), setOf(
                 TalkSlot(LocalTime.parse("09:00"), LocalTime.parse("09:30"))
             )
-        )
+        , organizer = user)
     }
 
     private fun createTalkFor(user: User, anOpenSpace: OpenSpace, aTalk: Talk) {

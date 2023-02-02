@@ -31,15 +31,6 @@ class User(
   var id: Long = 0
 ) {
 
-  fun addTalk(talk: Talk): User {
-    return this
-  }
-
-  fun addOpenSpace(openSpace: OpenSpace): User {
-    openSpace.organizer = this
-    return this
-  }
-
   fun checkOwnershipOf(talk: Talk) {
       if (!isOwnerOf(talk))
         throw UserNotOwnerOfTalkException()

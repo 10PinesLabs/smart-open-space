@@ -8,8 +8,6 @@ import java.time.LocalTime
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id
-import javax.persistence.ManyToOne
-import javax.persistence.OneToOne
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes(
@@ -46,26 +44,3 @@ class OtherSlot(startTime: LocalTime, endTime: LocalTime, val description: Strin
   }
 }
 
-@Entity
-class AssignedSlot(
-  @ManyToOne
-  var slot: TalkSlot,
-  @ManyToOne
-  var room: Room,
-  @OneToOne
-  val talk: Talk,
-  @Id
-  @GeneratedValue
-  val id: Long = 0
-) {
-  fun startAt(time: LocalTime) = slot.startTime == time
-
-  fun moveTo(slot: TalkSlot, room: Room) {
-    this.slot = slot
-    this.room = room
-  }
-
-  fun hasDate(date: LocalDate?): Boolean {
-    return slot.date == date
-  }
-}

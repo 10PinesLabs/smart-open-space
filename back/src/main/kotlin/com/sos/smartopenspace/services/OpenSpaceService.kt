@@ -25,14 +25,16 @@ class OpenSpaceService(
 
   fun create(userID: Long, openSpaceDTO: OpenSpaceDTO): OpenSpace {
     val slots = openSpaceDTO.slotsWithDates()
+    val user = findUser(userID)
     val openSpace = OpenSpace(
       name = openSpaceDTO.name,
       rooms = openSpaceDTO.rooms,
       slots = slots.toSet(),
       description = openSpaceDTO.description,
-      tracks = openSpaceDTO.tracks
+      tracks = openSpaceDTO.tracks,
+      organizer = user
     )
-    findUser(userID).addOpenSpace(openSpace)
+
     return openSpaceRepository.save(openSpace)
   }
 
@@ -66,7 +68,7 @@ class OpenSpaceService(
   }
 
   @Transactional(readOnly = true)
-  fun findAssignedSlotsById(id: Long) = findById(id).assignedSlots.toList()
+  fun findAssignedSlotsById(id: Long) = findById(id).assignments.toList()
 
 
   fun activateQueue(userID: Long, osID: Long) =

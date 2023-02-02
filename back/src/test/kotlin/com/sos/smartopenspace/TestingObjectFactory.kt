@@ -2,7 +2,6 @@ package com.sos.smartopenspace
 
 import com.sos.smartopenspace.domain.*
 import com.sos.smartopenspace.persistence.TalkRepository
-import com.sos.smartopenspace.persistence.UserRepository
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -16,7 +15,8 @@ fun anOpenSpace(
         rooms: Set<Room> = setOf(Room("1")),
         tracks: Set<Track> = emptySet(),
         description: String = "",
-        talks: MutableSet<Talk> = mutableSetOf()
+        talks: MutableSet<Talk> = mutableSetOf(),
+        organizer: User = aUser()
 ): OpenSpace {
     return OpenSpace(
       name = name,
@@ -24,14 +24,12 @@ fun anOpenSpace(
       slots = slots,
       talks = talks,
       description = description,
-      tracks = tracks
+      tracks = tracks,
+        organizer = organizer
     )
 }
 
-fun aSavedTalk(talkRepository: TalkRepository, openSpace: OpenSpace, repoUser: UserRepository): Talk {
-    val user = aUser()
-    repoUser.save(user)
-    user.addOpenSpace(openSpace)
+fun aSavedTalk(talkRepository: TalkRepository, openSpace: OpenSpace, user: User): Talk {
     openSpace.toggleCallForPapers(user)
     val aTalk = Talk("a name", description = "first description", speaker = user)
     openSpace.addTalk(aTalk)
@@ -58,15 +56,11 @@ fun anOpenSpaceWith(
                 TalkSlot(LocalTime.parse("10:45"), LocalTime.parse("11:00"), LocalDate.now())),
         rooms: Set<Room> = setOf(Room("Sala"))
 ): OpenSpace {
-    val openSpace = anOpenSpace(talks = mutableSetOf(talk), slots = slots, rooms = rooms)
-    organizer.addOpenSpace(openSpace)
+    val openSpace = anOpenSpace(talks = mutableSetOf(talk), slots = slots, rooms = rooms, organizer = organizer)
     return openSpace
 }
 
-fun aUser(openSpaces: MutableSet<OpenSpace> = mutableSetOf(), talks: MutableSet<Talk> = mutableSetOf(), userEmail: String = "apprentices@sos.sos"): User {
-    val user =  User(userEmail, "apprentices", "apprentices")
-    talks.forEach { user.addTalk(it) }
-    openSpaces.forEach { user.addOpenSpace(it) }
-    return user
+fun aUser(userEmail: String = "apprentices@sos.sos"): User {
+    return User(userEmail, "apprentices", "apprentices")
 }
 
