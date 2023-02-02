@@ -7,6 +7,7 @@ import com.sos.smartopenspace.persistence.OpenSpaceRepository
 import com.sos.smartopenspace.persistence.TalkRepository
 import com.sos.smartopenspace.persistence.TrackRepository
 import com.sos.smartopenspace.websockets.QueueSocket
+import org.springframework.data.jpa.domain.JpaSort
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -48,7 +49,7 @@ class OpenSpaceService(
   private fun findTalk(id: Long) = talkRepository.findByIdOrNull(id) ?: throw TalkNotFoundException()
 
   @Transactional(readOnly = true)
-  fun findTalks(id: Long) = findById(id).talks.toList().sortedByDescending { it.votes() }
+  fun findTalks(id: Long) = talkRepository.findAllByOpenSpaceIdOrderedByVotes(id)
 
   fun createTalk(userID: Long, osID: Long, createTalkDTO: CreateTalkDTO): Talk {
     val user = findUser(userID)
