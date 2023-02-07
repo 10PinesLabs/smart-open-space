@@ -1,5 +1,6 @@
 package com.sos.smartopenspace.services
 
+import com.fasterxml.jackson.databind.JsonNode
 import com.sos.smartopenspace.domain.*
 import com.sos.smartopenspace.helpers.CreateTalkDTO
 import com.sos.smartopenspace.helpers.OpenSpaceDTO
@@ -10,6 +11,7 @@ import com.sos.smartopenspace.websockets.QueueSocket
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.net.http.HttpResponse
 
 @Service
 @Transactional
@@ -112,5 +114,5 @@ class OpenSpaceService(
     talkRepository.delete(talk)
     return talk
   }
-
 }
+
