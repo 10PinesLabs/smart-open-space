@@ -13,6 +13,9 @@ class EmailService(
   private val emailSender: JavaMailSender
 ) {
 
+  @Value("\${mail.sender}")
+  private val mailSender: String = ""
+
   @Value("\${frontend.url}")
   private val frontendResetUrl: String = ""
 
@@ -30,7 +33,7 @@ class EmailService(
   }
 
   private fun createMessage(email: Email) = emailSender.createMimeMessage().apply {
-    setFrom("smart@openspace.com")
+    setFrom(mailSender)
     setRecipient(Message.RecipientType.TO, InternetAddress(email.to))
     subject = email.subject
     setText(email.text, "UTF-8", "html")
