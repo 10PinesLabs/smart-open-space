@@ -13,9 +13,6 @@ class EmailService(
   private val emailSender: JavaMailSender
 ) {
 
-  @Value("\${spring.mail.username}")
-  private val springNameUsername: String = ""
-
   @Value("\${frontend.url}")
   private val frontendResetUrl: String = ""
 
@@ -33,7 +30,7 @@ class EmailService(
   }
 
   private fun createMessage(email: Email) = emailSender.createMimeMessage().apply {
-    setFrom(springNameUsername)
+    setFrom("smart@openspace.com")
     setRecipient(Message.RecipientType.TO, InternetAddress(email.to))
     subject = email.subject
     setText(email.text, "UTF-8", "html")
