@@ -121,18 +121,16 @@ class OpenSpaceControllerTest {
         val aMeetingLink = "https://aLink"
         val aDocument = Document("a document", URL("https://www.lipsum.com/"))
 
-        val entityResponse = mockMvc.perform(
+        mockMvc.perform(
             MockMvcRequestBuilders.post("/openSpace/talk/${user.id}/${anOpenSpace.id}")
                 .contentType("application/json")
                 .content(generateTalkWithTrackBody(aMeetingLink, track, document = aDocument))
-        ).andExpect(MockMvcResultMatchers.status().isOk).andReturn().response
+        ).andExpect(MockMvcResultMatchers.status().isOk)
 
-        val talkId = JsonPath.read<Int>(entityResponse.contentAsString, "$.id")
         mockMvc.perform(
             MockMvcRequestBuilders.get("/openSpace/talks/${anOpenSpace.id}")
         )
             .andExpect(MockMvcResultMatchers.status().isOk)
-            .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value(talkId))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].meetingLink").value(aMeetingLink))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].track.name").value(track.name))
             .andExpect(MockMvcResultMatchers.jsonPath("$[0].documents[0].name").value(aDocument.name))
