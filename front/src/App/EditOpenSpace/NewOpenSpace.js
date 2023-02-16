@@ -13,24 +13,19 @@ const NewOpenSpace = () => {
 
   if (!user) return <RedirectToRoot />;
 
-  const onSubmit = ({ value: { dates, name, description, rooms, slots, tracks } }) => {
-    if (dates.length > 0 && slots.length == 0) {
-      alert('Si agregaste una fecha, tenés que agregar slots');
-    } else {
-      createOS({
-        dates: dates.map((date) => new Date(date)),
-        name,
-        description,
-        rooms,
-        slots: slots.map(({ endTime, startTime, ...rest }) => ({
-          ...rest,
-          endTime: splitTime(endTime),
-          startTime: splitTime(startTime),
-        })),
-        tracks,
-      }).then(pushToRoot);
-    }
-  };
+  const onSubmit = ({ value: { dates, name, description, rooms, slots, tracks } }) =>
+    createOS({
+      dates: dates.map((date) => new Date(date)),
+      name,
+      description,
+      rooms,
+      slots: slots.map(({ endTime, startTime, ...rest }) => ({
+        ...rest,
+        endTime: splitTime(endTime),
+        startTime: splitTime(startTime),
+      })),
+      tracks,
+    }).then(pushToRoot);
 
   return (
     <OpenSpaceForm
