@@ -13,17 +13,19 @@ import { useUser } from '#helpers/useAuth';
 import { ButtonSingIn } from '#shared/ButtonSingIn';
 import { sortTimes, byDate } from '#helpers/time';
 import { DateSlots } from './DateSlots';
-import { Tab, Tabs, Select } from 'grommet';
+import { Tab, Tabs, Select, Box } from 'grommet';
 import { compareAsc, format } from 'date-fns';
 import { ButtonMyTalks } from '../buttons/ButtonMyTalks';
+import RowBetween from '#shared/RowBetween';
 
 const Schedule = () => {
   const user = useUser();
   const [redirectToLogin, setRedirectToLogin] = useState(false);
   const [trackFilter, setTrackFilter] = useState('Todas');
+  const [roomFilter, setRoomFilter] = useState('Todas');
 
   const {
-    data: { id, name, slots, organizer, dates, tracks } = {},
+    data: { id, name, slots, organizer, dates, tracks, rooms } = {},
     isPending,
     isRejected,
   } = useGetOpenSpace();
@@ -34,6 +36,7 @@ const Schedule = () => {
   if (isRejected || !dates) return <RedirectToRoot />;
 
   const trackNames = ['Todas', ...tracks.map((track) => track.name)];
+  const roomNames = ['Todas', ...rooms.map((room) => room.name)];
   const sortedSlots = sortTimes(slots);
   const sortedDates = dates.sort(compareAsc);
   const talksOf = (slotId) =>
@@ -53,12 +56,24 @@ const Schedule = () => {
           )}
         </MainHeader.Buttons>
       </MainHeader>
-      <MainHeader.SubTitle label="Filtrar por tracks:" />
-      <Select
-        options={trackNames}
-        value={trackFilter}
-        onChange={({ option }) => setTrackFilter(option)}
-      />
+      <RowBetween direction={'row'} margin={{ vertical: 'medium' }}>
+        <Box>
+          <MainHeader.SubTitle label="Filtrar por tracks:" />
+          <Select
+            options={trackNames}
+            value={trackFilter}
+            onChange={({ option }) => setTrackFilter(option)}
+          />
+        </Box>
+        <Box>
+          <MainHeader.SubTitle label="Filtrar por salas:" />
+          <Select
+            options={roomNames}
+            value={roomFilter}
+            onChange={({ option }) => setRoomFilter(option)}
+          />
+        </Box>
+      </RowBetween>
       <Tabs>
         {sortedDates.map((date) => (
           <Tab title={format(date, 'yyyy-MM-dd')}>
@@ -66,6 +81,7 @@ const Schedule = () => {
               talksOf={talksOf}
               sortedSlots={sortedSlots.filter(byDate(date))}
               trackFilter={trackFilter}
+              roomFilter={roomFilter}
             />
           </Tab>
         ))}
