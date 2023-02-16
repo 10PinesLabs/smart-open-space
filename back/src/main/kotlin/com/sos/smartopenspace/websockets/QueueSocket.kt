@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component
 
 @Component
 class QueueSocket(private val openSpaceRepository: OpenSpaceRepository) : AbstractSocket<List<Talk>>() {
-  private fun findById(id: Long) = openSpaceRepository.findByIdOrNull(id) ?: throw OpenSpaceNotFoundException()
+  private fun findById(id: Long) = openSpaceRepository.findById(id).orElseThrow { OpenSpaceNotFoundException() }
 
   override fun getData(id: Long) = findById(id).queue.toList()
   override fun getData(os: OpenSpace) = os.queue.toList()
