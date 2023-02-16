@@ -2,9 +2,10 @@ package com.sos.smartopenspace.services
 import com.sos.smartopenspace.domain.Email
 import com.sos.smartopenspace.domain.User
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.mail.SimpleMailMessage
 import org.springframework.mail.javamail.JavaMailSender
 import org.springframework.stereotype.Service
+import javax.mail.Message
+import javax.mail.internet.InternetAddress
 
 @Service
 class EmailService(
@@ -12,8 +13,8 @@ class EmailService(
   private val emailSender: JavaMailSender
 ) {
 
-  @Value("\${spring.mail.username}")
-  private val springNameUsername: String = ""
+  @Value("\${mail.sender}")
+  private val mailSender: String = ""
 
   @Value("\${frontend.url}")
   private val frontendResetUrl: String = ""
@@ -21,20 +22,21 @@ class EmailService(
   fun sendRecoveryEmail(email: String): User {
     val user = userService.findByEmail(email)
     val resetToken = userService.generatePasswordResetToken(user)
-    sendEmail(email, "recuperación de password", "$frontendResetUrl/login?reset=true&email=$email&token=$resetToken")
+    sendEmail(email, "recuperación de password", "<html><a href=\"$frontendResetUrl/login?reset=true&email=$email&token=$resetToken\">Resetear contraseña</a></html>")
     return user
   }
 
   fun sendEmail(email: String, subject: String, text: String) {
     val mail = Email(email, subject, text, withAttachment = false)
-    val msg = createSimpleMessage(mail)
+    val msg = createMessage(mail)
     emailSender.send(msg)
   }
 
-  private fun createSimpleMessage(email: Email) = SimpleMailMessage().apply {
-    setFrom(springNameUsername)
-    setTo(email.to)
-    setSubject(email.subject)
-    setText(email.text)
+  private fun createMessage(email: Email) = emailSender.createMimeMessage().apply {
+    setFrom(mailSender)
+    setRecipient(Message.RecipientType.TO, InternetAddress(email.to))
+    subject = email.subject
+    setText(email.text, "UTF-8", "html")
+    setHeader("Content-Type", "text/html; charset=UTF-8")
   }
 }
