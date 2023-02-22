@@ -136,6 +136,14 @@ export const OpenSpaceForm = ({
     return tracks.some((eachTrack) => isRepeated(tracks, eachTrack));
   }
 
+  const checkSubmit = ({ value }) => {
+    if (value.dates.length > 0 && value.slots.length == 0) {
+      alert('Si agregaste una fecha, tenés que agregar slots');
+    } else {
+      onSubmit({ value });
+    }
+  };
+
   if (initialValues === undefined) return <Spinner />;
 
   return (
@@ -143,7 +151,7 @@ export const OpenSpaceForm = ({
       <MainHeader>
         <MainHeader.Title label={title} />
       </MainHeader>
-      <MyForm onSecondary={history.goBack} onSubmit={onSubmit}>
+      <MyForm onSecondary={history.goBack} onSubmit={checkSubmit}>
         <MyForm.Text placeholder="¿Como se va a llamar?" value={initialValues.name} />
         <MyForm.TextAreaWithCharacterCounter
           placeholder="Añade una descripción."

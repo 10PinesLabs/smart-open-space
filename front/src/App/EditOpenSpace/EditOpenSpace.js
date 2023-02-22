@@ -3,9 +3,10 @@ import { useHistory } from 'react-router-dom';
 
 import { useGetOpenSpace, updateOS } from '#api/os-client';
 import { useUser } from '#helpers/useAuth';
-import { RedirectToRoot, usePushToRoot } from '#helpers/routes';
+import { RedirectToRoot } from '#helpers/routes';
 import { OpenSpaceForm } from './OpenSpaceForm';
 import Spinner from '#shared/Spinner';
+import { usePushToOpenSpace } from '#helpers/routes';
 
 function formatTime(timeArray) {
   let hour = timeArray[0].toString().padStart(2, '0');
@@ -16,7 +17,7 @@ function formatTime(timeArray) {
 const EditOpenSpace = () => {
   const history = useHistory();
   const user = useUser();
-  const pushToRoot = usePushToRoot();
+  const pushToOpenSpace = usePushToOpenSpace();
 
   const { data: openSpace, isPending } = useGetOpenSpace();
   if (isPending) {
@@ -35,12 +36,8 @@ const EditOpenSpace = () => {
   if (!user) return <RedirectToRoot />;
 
   const onSubmit = ({ value }) => {
-    if (value.dates.length > 0 && value.slots.length == 0) {
-      alert('Si agregaste una fecha, tenés que agregar slots');
-    } else {
-      const editedOpenSpace = { ...openSpace, ...value };
-      updateOS(openSpace.id, editedOpenSpace).then(pushToRoot);
-    }
+    const editedOpenSpace = { ...openSpace, ...value };
+    updateOS(openSpace.id, editedOpenSpace).then(pushToOpenSpace);
   };
 
   return (
