@@ -40,18 +40,20 @@ const Talk = () => {
         <MainHeader.Description description={description} />
         <MainHeader.Buttons>
           {amTheSpeaker && (
-            <Button
-              icon={<EditIcon />}
-              color="accent-4"
-              label="Editar"
-              onClick={pushToEditTalk}
-            />
+            <>
+              <Button
+                icon={<EditIcon />}
+                color="accent-4"
+                label="Editar"
+                onClick={pushToEditTalk}
+              />
+              <Button
+                icon={<DeleteIcon />}
+                label="Eliminar"
+                onClick={() => setShowDeleteModal(true)}
+              />
+            </>
           )}
-          <Button
-            icon={<DeleteIcon />}
-            label="Eliminar"
-            onClick={() => setShowDeleteModal(true)}
-          />
           <Button
             color="accent-1"
             icon={<ScheduleIcon />}
