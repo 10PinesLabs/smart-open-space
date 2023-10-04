@@ -1,16 +1,17 @@
 import React from 'react';
 import { useUser } from '#helpers/useAuth';
-import { RedirectToRoot, usePushToSchedule, usePushToEditTalk } from '#helpers/routes';
+import { RedirectToRoot, usePushToEditTalk, usePushToOpenSpace } from '#helpers/routes';
 import { useGetTalk, deleteTalk, createReview } from '#api/os-client';
 import MainHeader from '#shared/MainHeader';
 import Spinner from '#shared/Spinner';
 import { useParams } from 'react-router-dom';
-import { ScheduleIcon, EditIcon, DeleteIcon, StarIcon } from '#shared/icons';
+import { EditIcon, DeleteIcon, StarIcon } from '#shared/icons';
 import { Button, Anchor, Text, Box, Layer } from 'grommet';
 import Card from '#shared/Card';
 import { ReviewForm } from './ReviewForm';
 import Row from '#shared/Row';
 import Title from '#shared/Title';
+import { Return } from 'grommet-icons/icons';
 
 const Talk = () => {
   const user = useUser();
@@ -20,11 +21,11 @@ const Talk = () => {
     isRejected,
   } = useGetTalk();
   const openSpaceId = useParams().id;
-  const pushToSchedule = usePushToSchedule(openSpaceId);
   const amTheSpeaker = user && speaker && speaker.id === user.id;
   const pushToEditTalk = usePushToEditTalk(id);
   const [showDeleteModal, setShowDeleteModal] = React.useState();
   const [viewReviews, setViewReviews] = React.useState([]);
+  const pushToOpenSpace = usePushToOpenSpace(openSpaceId);
 
   React.useEffect(() => {
     setViewReviews(reviews);
@@ -54,9 +55,9 @@ const Talk = () => {
           />
           <Button
             color="accent-1"
-            icon={<ScheduleIcon />}
-            label="Agenda"
-            onClick={pushToSchedule}
+            icon={<Return />}
+            label="Open Space"
+            onClick={pushToOpenSpace}
           />
         </MainHeader.Buttons>
       </MainHeader>
@@ -110,7 +111,7 @@ const Talk = () => {
               <Button
                 label="Si"
                 onClick={() => {
-                  deleteTalk(openSpaceId, id).then(pushToSchedule);
+                  deleteTalk(openSpaceId, id).then(pushToOpenSpace);
                   setShowDeleteModal(false);
                 }}
               />
