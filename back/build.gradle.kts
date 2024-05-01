@@ -30,9 +30,9 @@ dependencies {
   // implementation("org.springframework.boot:spring-boot-starter-security")
   implementation("org.springframework.boot:spring-boot-starter-web")
   implementation("org.springframework.boot:spring-boot-starter-websocket")
-  implementation("com.google.guava:guava:31.1-jre")
+  implementation("com.google.guava:guava:32.0.0-android")
   implementation("net.sargue:mailgun:1.10.0")
-  implementation("org.glassfish.jersey.inject:jersey-hk2:2.26")
+  implementation("org.glassfish.jersey.inject:jersey-hk2")
   runtimeOnly("com.h2database:h2")
   testImplementation("org.springframework.boot:spring-boot-starter-test"){
     exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
