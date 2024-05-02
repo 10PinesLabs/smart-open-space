@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         java-version: [1.8]
-        distribution: ['temurin']
+        distribution: ['correto']
         architecture: [x64]
     steps:
     - name: Checkout repo
