@@ -11,7 +11,7 @@ jobs:
     strategy:
       matrix:
         java-version: [1.8]
-        distribution: ['correto']
+        distribution: ['corretto']
         architecture: [x64]
     steps:
     - name: Checkout repo
