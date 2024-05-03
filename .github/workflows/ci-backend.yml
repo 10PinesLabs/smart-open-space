@@ -1,0 +1,30 @@
+name: Backend CI
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    defaults:
+      run:
+        working-directory: back
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        java-version: [8]
+        distribution: ['corretto']
+        architecture: [x64]
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+    - name: Use Java ${{ matrix.java-version }}
+      uses: actions/setup-java@v4
+      with:
+        java-version: ${{ matrix.java-version }}
+        distribution: ${{ matrix.distribution }}
+        architecture: ${{ matrix.architecture }}
+    - name: Make Gradle executable
+      run: chmod +x ./gradlew
+    - name: Build and run tests
+      run: ./gradlew test -i
+      env:
+        CI: true
