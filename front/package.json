@@ -90,5 +90,11 @@
     "slick-carousel": "^1.8.1",
     "sockjs-client": "^1.4.0",
     "styled-components": "^5.0.1"
+  },
+  "resolutions": {
+    "@babel/traverse": "^7.23.2",
+    "slick-carousel/**/jquery": "^1.8.0",
+    "styled-components/**/react-is": "^16.8.0",
+    "eslint-config-react-app/**/eslint-plugin-react-hooks": "^2.5.1"
   }
 }
