@@ -13,7 +13,6 @@ import {
   usePushToOpenSpace,
   usePushToSchedule,
 } from '#helpers/routes';
-import ButtonLoading from '#shared/ButtonLoading';
 import Detail from '#shared/Detail';
 import { TalkIcon, ScheduleIcon } from '#shared/icons';
 import MainHeader from '#shared/MainHeader';
@@ -196,13 +195,15 @@ const MyTalks = () => {
           icon={TalkIcon}
           label={currentUserIsOrganizer ? 'Gestionar Charlas' : 'Mis Charlas'}
         />
-        <MainHeader.Button
-          margin={{ top: 'medium' }}
-          color="accent-1"
-          icon={<ScheduleIcon />}
-          label="Agenda"
-          onClick={pushToSchedule}
-        />
+        {openSpace.dates && (
+          <MainHeader.Button
+            margin={{ top: 'medium' }}
+            color="accent-1"
+            icon={<ScheduleIcon />}
+            label="Agenda"
+            onClick={pushToSchedule}
+          />
+        )}
         <MainHeader.Buttons>
           {shouldDisplayAddTalkButton && (
             <MainHeader.ButtonNew label="Charla" key="newTalk" onClick={pushToNewTalk} />
