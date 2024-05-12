@@ -58,7 +58,7 @@ class UserControllerTest {
     val name = "Fran"
     val userInformation = aUserCreationBody(email = email, password = password, name = name)
 
-    val response = mockMvc.perform(
+    mockMvc.perform(
       MockMvcRequestBuilders.post("/user")
         .contentType("application/json")
         .content(userInformation)
@@ -169,7 +169,7 @@ class UserControllerTest {
   }
 
   private fun aUserCreationBody(email: String, password: String, name: String): String {
-    return return """
+      return """
 {
     "email": "${email}",
     "name": "${name}",
