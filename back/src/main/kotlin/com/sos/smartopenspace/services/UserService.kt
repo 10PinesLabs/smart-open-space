@@ -46,7 +46,7 @@ class UserService(
         }
 
         user.cleanResetToken()
-        user.password = passwordEncoderService.encodePassword(password)
+        user.password = securePassword(password)
         return user
     }
 
