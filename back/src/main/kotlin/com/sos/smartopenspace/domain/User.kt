@@ -54,14 +54,6 @@ class User(
 
   fun isOwnerOf(talk: Talk) = this == talk.speaker
 
-  fun securePassword() {
-    password = secureField(password)
-  }
-
-  fun resetPassword(newPassword: String) {
-    password = secureField(newPassword)
-  }
-
   fun secureResetToken(resetToken: String, lifetime: Long) {
     this.resetToken = secureField(resetToken)
     this.resetTokenLifetime = System.currentTimeMillis() + lifetime

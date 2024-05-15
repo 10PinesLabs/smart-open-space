@@ -267,7 +267,7 @@ class TalkControllerTest {
   private fun freeSlots(openSpace: OpenSpace) = openSpace.freeSlots().first().second
 
   private fun aReviewCreationBody(grade: Int, comment: String): String {
-    return return """
+    return """
       {
           "grade": "$grade",
           "comment": "$comment"

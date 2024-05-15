@@ -2,6 +2,7 @@ package com.sos.smartopenspace.domain
 
 open class BadRequestException(message: String?) : RuntimeException(message)
 open class NotFoundException(message: String) : BadRequestException(message)
+open class UnauthorizedException(message: String) : RuntimeException(message)
 open class UnprocessableEntityException(message: String?) : RuntimeException(message)
 
 class AlreadyActivedQueuingException : BadRequestException("Encolamiento ya se encuentra activo")
@@ -22,9 +23,12 @@ class NotValidTrackForOpenSpaceException : BadRequestException("El track de la c
 class UserDidntVoteThisTalkException : BadRequestException("Este usuario no voto esta charla")
 class UserNotOwnerOfTalkException : BadRequestException("El usuario no es el dueño de la charla")
 class UserNotOwnerOfOpenSpaceException : BadRequestException("El usuario no es el dueño del openspace")
+
 class OpenSpaceNotFoundException : NotFoundException("OpenSpace no encontrado")
 class TalkNotFoundException : NotFoundException("Charla no encontrada")
 class RoomNotFoundException : NotFoundException("Sala no encontrada")
 class TrackNotFoundException : NotFoundException("Track no encontrado")
 class UserNotFoundException : NotFoundException("Usuario incorrecto")
 class SlotNotFoundException : NotFoundException("No existe un slot en ese horario")
+
+class UserUnauthorizedException : UnauthorizedException("Usuario incorrecto")

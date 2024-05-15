@@ -2,7 +2,6 @@ package com.sos.smartopenspace.controllers
 
 import com.jayway.jsonpath.JsonPath
 import com.sos.smartopenspace.domain.User
-import com.sos.smartopenspace.persistence.OpenSpaceRepository
 import com.sos.smartopenspace.persistence.UserRepository
 import com.sos.smartopenspace.services.UserService
 import org.junit.jupiter.api.Assertions.assertNotNull
@@ -38,7 +37,7 @@ class UserControllerTest {
     val email = "email@gmail.com"
     val password = "password"
     val name = "Fran"
-    val userInformation = aUserCreationBody(email = email, password = password, name = name)
+    val userInformation = anUserCreationBody(email = email, password = password, name = name)
 
     val response = mockMvc.perform(
       MockMvcRequestBuilders.post("/user")
@@ -56,9 +55,9 @@ class UserControllerTest {
     val email = "email@gmail.com"
     val password = "password"
     val name = "Fran"
-    val userInformation = aUserCreationBody(email = email, password = password, name = name)
+    val userInformation = anUserCreationBody(email = email, password = password, name = name)
 
-    val response = mockMvc.perform(
+    mockMvc.perform(
       MockMvcRequestBuilders.post("/user")
         .contentType("application/json")
         .content(userInformation)
@@ -76,7 +75,7 @@ class UserControllerTest {
       val email = "email@gmail.com"
       val password = "password"
       val name = "Fran"
-      val userInformation = aUserCreationBody(email = email, password = password, name = name)
+      val userInformation = anUserCreationBody(email = email, password = password, name = name)
 
       mockMvc.perform(
               MockMvcRequestBuilders.post("/user")
@@ -113,7 +112,7 @@ class UserControllerTest {
             MockMvcRequestBuilders.post("/user/auth")
                 .contentType("application/json")
                 .content(userLoginInformation)
-        ).andExpect(MockMvcResultMatchers.status().isNotFound)
+        ).andExpect(MockMvcResultMatchers.status().isUnauthorized)
     }
 
   @Test
@@ -165,11 +164,11 @@ class UserControllerTest {
       MockMvcRequestBuilders.post("/user/reset")
         .contentType("application/json")
         .content(userResetPasswordInformation)
-    ).andExpect(MockMvcResultMatchers.status().isNotFound)
+    ).andExpect(MockMvcResultMatchers.status().isUnauthorized)
   }
 
-  private fun aUserCreationBody(email: String, password: String, name: String): String {
-    return return """
+  private fun anUserCreationBody(email: String, password: String, name: String): String {
+      return """
 {
     "email": "${email}",
     "name": "${name}",
