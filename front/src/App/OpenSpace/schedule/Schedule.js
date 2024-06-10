@@ -12,7 +12,7 @@ import {
 import Spinner from '#shared/Spinner';
 import { useUser } from '#helpers/useAuth';
 import { ButtonSingIn } from '#shared/ButtonSingIn';
-import { sortTimes, byDate } from '#helpers/time';
+import { sortTimesByStartTime, byDate } from '#helpers/time';
 import { DateSlots } from './DateSlots';
 import { Tab, Tabs } from 'grommet';
 import { compareAsc, format, isEqual } from 'date-fns';
@@ -32,7 +32,7 @@ const Schedule = () => {
   if (isPending) return <Spinner />;
   if (isRejected || !dates) return <RedirectToRoot />;
 
-  const sortedSlots = sortTimes(slots);
+  const sortedSlots = sortTimesByStartTime(slots);
   console_log_debug(sortedSlots);
   const sortedDates = dates.sort(compareAsc);
   const talksOf = (slotId) =>
