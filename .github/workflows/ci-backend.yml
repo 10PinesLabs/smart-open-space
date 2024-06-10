@@ -10,13 +10,13 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        java-version: [11]
-        distribution: ['corretto']
-        architecture: [x64]
+        java-version: [21]
+        distribution: ['corretto', 'temurin']
+        architecture: [x64, x86]
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
-    - name: Use Java ${{ matrix.java-version }}
+    - name: Use Java ${{ matrix.java-version }}, dist ${{ matrix.distribution }} and arch ${{ matrix.architecture }}
       uses: actions/setup-java@v4
       with:
         java-version: ${{ matrix.java-version }}

@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 
 plugins {
-  val kotlinVersion = "1.7.21"
+  val kotlinVersion = "1.9.22"
   id("org.springframework.boot") version "2.7.18"
   id("io.spring.dependency-management") version "1.1.5"
   id("org.flywaydb.flyway") version "9.22.3"
@@ -15,7 +15,7 @@ plugins {
 
 group = "com.sos"
 version = "0.0.1-SNAPSHOT"
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_21
 
 repositories {
   mavenCentral()
@@ -65,7 +65,7 @@ tasks.withType<Test> {
 tasks.withType<KotlinCompile> {
   kotlinOptions {
     freeCompilerArgs = listOf("-Xjsr305=strict")
-    jvmTarget = "11"
+    jvmTarget = "21"
   }
 }
 
@@ -85,8 +85,8 @@ flyway {
 
 tasks.jacocoTestReport {
   reports {
-    xml.isEnabled = true
-    html.isEnabled = false
+    xml.required.value(true)
+    html.required.value(false)
   }
 }
 
