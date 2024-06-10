@@ -11,8 +11,8 @@ jobs:
     strategy:
       matrix:
         java-version: [21]
-        distribution: ['corretto', 'temurin']
-        architecture: [x64, x86]
+        distribution: ['corretto']
+        architecture: [x64]
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
