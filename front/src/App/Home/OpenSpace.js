@@ -11,7 +11,7 @@ import { DeleteIcon } from '#shared/icons';
 import ButtonLoading from '#shared/ButtonLoading';
 
 const pad = (n) => (n < 10 ? '0' : '') + n;
-const toTime = (time) => time.map(pad).join(':');
+const toTime = (time) => (time.includes(':') ? time : time.map(pad).join(':'));
 const ButtonAction = (props) => (
   <ButtonLoading alignSelf="center" margin={{ top: 'small' }} {...props} />
 );
@@ -94,11 +94,17 @@ const OpenSpace = ({ deleteOS, startDate, endTime, id, name, startTime, urlImage
   );
 };
 OpenSpace.propTypes = {
-  startDate: PropTypes.arrayOf(PropTypes.number).isRequired,
-  endTime: PropTypes.arrayOf(PropTypes.number).isRequired,
+  startDate: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.arrayOf(PropTypes.number),
+    PropTypes.instanceOf(Date),
+  ]).isRequired,
+  endTime: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.number)])
+    .isRequired,
+  startTime: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.number)])
+    .isRequired,
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
-  startTime: PropTypes.arrayOf(PropTypes.number).isRequired,
   urlImage: PropTypes.string.isRequired,
 };
 

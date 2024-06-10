@@ -29,7 +29,7 @@ dependencyManagement {
 
 dependencies {
   implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-  //implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.12.3")
+  implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
   implementation("org.flywaydb:flyway-core")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib")
@@ -69,12 +69,14 @@ tasks.withType<KotlinCompile> {
   }
 }
 
+
+// Enable when require to use flyway plugin
 /*
 flyway {
   url = "jdbc:postgresql://localhost:6543/sos"
   driver = "org.postgresql.Driver"
-  user = "user"
-  password = "password"
+  user = <db-user>
+  password = <db-password>
   baselineOnMigrate = true
   locations = arrayOf("filesystem:src/main/resources/db/migration")
 }

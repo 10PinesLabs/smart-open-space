@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { console_log_debug } from '#helpers/logging';
 import { useSlots } from '#api/sockets-client';
 import { useGetOpenSpace } from '#api/os-client';
 import MainHeader from '#shared/MainHeader';
@@ -16,7 +17,6 @@ import { DateSlots } from './DateSlots';
 import { Tab, Tabs } from 'grommet';
 import { compareAsc, format, isEqual } from 'date-fns';
 import { ButtonMyTalks } from '../buttons/ButtonMyTalks';
-
 const Schedule = () => {
   const user = useUser();
   const [redirectToLogin, setRedirectToLogin] = useState(false);
@@ -33,7 +33,7 @@ const Schedule = () => {
   if (isRejected || !dates) return <RedirectToRoot />;
 
   const sortedSlots = sortTimes(slots);
-  console.log(sortedSlots);
+  console_log_debug(sortedSlots);
   const sortedDates = dates.sort(compareAsc);
   const talksOf = (slotId) =>
     slotsSchedule.filter((slotSchedule) => slotSchedule.slot.id === slotId);

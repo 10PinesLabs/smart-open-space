@@ -3,7 +3,6 @@ package com.sos.smartopenspace.domain
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
-import java.util.*
 import javax.persistence.*
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
