@@ -85,7 +85,7 @@ class OpenSpaceService(
     private fun findTalk(id: Long) = talkRepository.findByIdOrNull(id) ?: throw TalkNotFoundException()
 
     @Transactional(readOnly = true)
-    fun findTalks(id: Long) = talkRepository.findAllByOpenSpaceIdOrderedByVotes(id)
+    fun findTalks(id: Long) = talkRepository.findAllByOpenSpaceIdOrderedByVotes(id).mapNotNull { it }
 
     fun createTalk(userID: Long, osID: Long, createTalkRequestDTO: CreateTalkRequestDTO): Talk {
         val user = findUser(userID)
