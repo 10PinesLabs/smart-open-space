@@ -5,14 +5,18 @@ import { OtherSlot } from './OtherSlot';
 import { TalkSlot } from './TalkSlot';
 import PropTypes from 'prop-types';
 
-export const Slot = ({ slot, talksOf }) => {
+export const Slot = ({ slot, talksOf, trackFilter, roomFilter }) => {
   return (
     <React.Fragment>
       <HourHeader hour={numbersToTime(slot.startTime)} />
       {!slot.assignable ? (
         <OtherSlot description={slot.description} />
       ) : (
-        <TalkSlot slots={talksOf(slot.id)} />
+        <TalkSlot
+          slots={talksOf(slot.id)}
+          trackFilter={trackFilter}
+          roomFilter={roomFilter}
+        />
       )}
     </React.Fragment>
   );
