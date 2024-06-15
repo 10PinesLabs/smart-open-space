@@ -56,6 +56,7 @@ class TalkService(
 
   fun voteTalk(talkID: Long, userID: Long): Talk {
     val aTalk = findTalk(talkID)
+    if (aTalk.speaker.id == userID) throw UserCannotVoteItsTalkException()
     val aUser = findUser(userID)
     aTalk.addVoteBy(aUser)
     return aTalk
