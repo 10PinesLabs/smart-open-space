@@ -108,8 +108,9 @@ class TalkService(
   }
 
   fun addReview(talkID: Long, userId: Long, createReviewRequestDTO: CreateReviewRequestDTO): Talk {
-    val reviewer = userService.findById(userId)
     val talk = findTalk(talkID)
+    if (talk.reviews.any { it.reviewer.id == userId }) throw RepeatedReviewForTalkException()
+    val reviewer = userService.findById(userId)
 
     val newReview = Review(
       grade = createReviewRequestDTO.grade,
