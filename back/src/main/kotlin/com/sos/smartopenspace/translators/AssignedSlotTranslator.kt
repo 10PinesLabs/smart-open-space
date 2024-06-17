@@ -5,7 +5,7 @@ import com.sos.smartopenspace.domain.TalkSlot
 import com.sos.smartopenspace.dto.SimpleIdDTO
 import com.sos.smartopenspace.dto.response.*
 
-class AssignedSlotResTranslator: TranslatorFrom<AssignedSlot, AssignedSlotResponseDTO> {
+object AssignedSlotResTranslator: TranslatorFrom<AssignedSlot, AssignedSlotResponseDTO> {
     override fun translateFrom(domain: AssignedSlot): AssignedSlotResponseDTO {
         return AssignedSlotResponseDTO(
             id = domain.id,

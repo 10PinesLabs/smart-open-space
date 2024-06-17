@@ -13,6 +13,6 @@ class ScheduleSocket(
     objectMapper: ObjectMapper
 ) : AbstractSocket<List<AssignedSlotResponseDTO>>(objectMapper) {
     override fun getData(id: Long) = openSpaceService.findAssignedSlotsById(id)
-    override fun getData(os: OpenSpace) = AssignedSlotResTranslator().translateAllFrom(os.assignedSlots.toList())
+    override fun getData(os: OpenSpace) = AssignedSlotResTranslator.translateAllFrom(os.assignedSlots.toList())
 
 }
