@@ -73,6 +73,7 @@ class OpenSpaceControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.startDate").isNotEmpty)
             .andExpect(MockMvcResultMatchers.jsonPath("$.endDate").isNotEmpty)
             .andExpect(MockMvcResultMatchers.jsonPath("$.dates").isNotEmpty)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.showSpeakerName").value(true))
     }
 
     @Test
@@ -344,6 +345,19 @@ class OpenSpaceControllerTest {
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(anOpenSpace.id))
             .andExpect(MockMvcResultMatchers.jsonPath("$.isActiveVoting").value(true))
+    }
+
+    @Test
+    fun `toggle show speaker name returns an ok status response and the modified Open Space`() {
+        val user = repoUser.save(aUser())
+        val anOpenSpace = repoOpenSpace.save(anyOpenSpaceWith(user))
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/openSpace/${anOpenSpace.id}/user/${user.id}/showSpeakerName")
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(anOpenSpace.id))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.showSpeakerName").value(false))
     }
 
     private fun anyOpenSpaceWith(organizer: User, tracks: Set<Track>? = null): OpenSpace {

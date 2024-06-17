@@ -147,6 +147,13 @@ class OpenSpaceService(
         return openSpace
     }
 
+    fun toggleShowSpeakerName(openSpaceId: Long, userID: Long): OpenSpace {
+        val openSpace = findById(openSpaceId)
+        val user = findUser(userID)
+        openSpace.toggleShowSpeakerName(user)
+        return openSpace
+    }
+
     private fun createTalkFrom(createTalkRequestDTO: CreateTalkRequestDTO, user: User): Talk {
         val track: Track? = findTrack(createTalkRequestDTO.trackId)
         return Talk(

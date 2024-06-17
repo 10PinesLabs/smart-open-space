@@ -72,6 +72,9 @@ const startCallForPapers = (openSpaceId) =>
 const toggleVoting = (openSpaceId) =>
   withUser(({ id }) => put(`openSpace/${openSpaceId}/user/${id}/voting`));
 
+const toggleShowSpeakerName = (openSpaceId) =>
+  withUser(({ id }) => put(`openSpace/${openSpaceId}/user/${id}/showSpeakerName`));
+
 const activateQueue = (osId) =>
   withUser(({ id }) => put(`openSpace/activateQueue/${id}/${osId}`));
 
@@ -119,4 +122,5 @@ export {
   deleteTalk,
   createReview,
   toggleVoting,
+  toggleShowSpeakerName,
 };

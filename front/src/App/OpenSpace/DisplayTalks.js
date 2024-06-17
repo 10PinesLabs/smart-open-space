@@ -11,6 +11,7 @@ export function DisplayTalks({
   activeCallForPapers,
   tracks,
   activeVoting,
+  showSpeakerName,
 }) {
   const { data: talks, isPending, isRejected, reload: reloadTalks } = useGetTalks();
   const pushToNewTalk = usePushToNewTalk();
@@ -29,11 +30,17 @@ export function DisplayTalks({
         reloadTalks={reloadTalks}
         track={track}
         activeVoting={activeVoting}
+        showSpeakerName={showSpeakerName}
       />
     ));
   }
 
   return (
-    <TalksGrid talks={talks} reloadTalks={reloadTalks} activeVoting={activeVoting} />
+    <TalksGrid
+      talks={talks}
+      reloadTalks={reloadTalks}
+      activeVoting={activeVoting}
+      showSpeakerName={showSpeakerName}
+    />
   );
 }

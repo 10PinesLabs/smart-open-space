@@ -3,7 +3,13 @@ import TalksGrid from './TalksGrid';
 import React from 'react';
 import * as PropTypes from 'prop-types';
 
-export function TrackWithTalks({ talks, reloadTalks, track, activeVoting }) {
+export function TrackWithTalks({
+  talks,
+  reloadTalks,
+  track,
+  activeVoting,
+  showSpeakerName,
+}) {
   let byTrack = (talk) => talk.track.id === track.id;
   const talksFromTrack = talks.filter(byTrack);
   return (
@@ -15,6 +21,7 @@ export function TrackWithTalks({ talks, reloadTalks, track, activeVoting }) {
             talks={talksFromTrack}
             reloadTalks={reloadTalks}
             activeVoting={activeVoting}
+            showSpeakerName={showSpeakerName}
           />
         </>
       )}

@@ -69,6 +69,8 @@ class OpenSpace(
 
   var isActiveVoting: Boolean = false
 
+  var showSpeakerName: Boolean = true
+
   fun isPendingQueue() = queueState == QueueState.PENDING
   fun isActiveQueue() = queueState == QueueState.ACTIVE
   fun isFinishedQueue() = queueState == QueueState.FINISHED
@@ -202,6 +204,11 @@ class OpenSpace(
   fun toggleVoting(user: User) {
     checkIsOrganizer(user)
     isActiveVoting = !isActiveVoting
+  }
+
+  fun toggleShowSpeakerName(user: User) {
+    checkIsOrganizer(user)
+    showSpeakerName = !showSpeakerName
   }
 
   @JsonProperty
