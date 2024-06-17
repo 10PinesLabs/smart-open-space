@@ -39,7 +39,6 @@ class TalkService(
     return openSpace
   }
 
-
   fun exchangeTalk(talkID: Long, roomID: Long, slotID: Long): OpenSpace {
     val openSpace = openSpaceRepository.findFirstOpenSpaceByTalkId(talkID)
     openSpace.exchangeSlot(findTalk(talkID), findRoom(roomID), findSlot(slotID))

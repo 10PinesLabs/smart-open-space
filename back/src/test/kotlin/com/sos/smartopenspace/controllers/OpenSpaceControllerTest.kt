@@ -333,6 +333,19 @@ class OpenSpaceControllerTest {
         ).andExpect(MockMvcResultMatchers.status().isNotFound)
     }
 
+    @Test
+    fun `start voting returns an ok status response and the modified Open Space`() {
+        val user = repoUser.save(aUser())
+        val anOpenSpace = repoOpenSpace.save(anyOpenSpaceWith(user))
+
+        mockMvc.perform(
+            MockMvcRequestBuilders.put("/openSpace/${anOpenSpace.id}/user/${user.id}/voting")
+        )
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.jsonPath("$.id").value(anOpenSpace.id))
+            .andExpect(MockMvcResultMatchers.jsonPath("$.isActiveVoting").value(true))
+    }
+
     private fun anyOpenSpaceWith(organizer: User, tracks: Set<Track>? = null): OpenSpace {
         val openSpace: OpenSpace = if (tracks == null) {
             anOpenSpace()

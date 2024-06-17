@@ -266,6 +266,35 @@ class OpenSpaceTest {
         }
     }
 
+    @Test
+    fun `an open space starts with inactive voting`() {
+        val organizer = anyUser()
+        val openSpace = anyOpenSpaceWith(organizer)
+
+        assertFalse(openSpace.isActiveVoting)
+    }
+
+    @Test
+    fun `an open space starts voting period`() {
+        val organizer = anyUser()
+        val openSpace = anyOpenSpaceWith(organizer)
+
+        openSpace.toggleVoting(organizer)
+
+        assertTrue(openSpace.isActiveVoting)
+    }
+
+    @Test
+    fun `a user thats not the organizer cant toggle voting`() {
+        val aUser = anyUser()
+        val organizer = anyUser()
+        val openSpace = anyOpenSpaceWith(organizer)
+
+        assertThrows<NotTheOrganizerException> {
+            openSpace.toggleVoting(aUser)
+        }
+    }
+
     private fun createAndEnqueueTalk(openSpace: OpenSpace, organizer: User, aTalk: Talk) {
         openSpace.toggleCallForPapers(organizer)
         openSpace.addTalk(aTalk)

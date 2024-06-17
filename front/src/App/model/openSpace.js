@@ -24,6 +24,7 @@ export class OpenSpace {
     toSchedule,
     tracks,
     urlImage,
+    isActiveVoting,
   }) {
     this.activeQueue = activeQueue;
     this.amountOfTalks = amountOfTalks;
@@ -44,6 +45,7 @@ export class OpenSpace {
     this.toSchedule = toSchedule;
     this.tracks = tracks;
     this.urlImage = urlImage;
+    this.isActiveVoting = isActiveVoting;
 
     if (dates.length > 0) {
       this.endDate = toDate(endDate);

@@ -67,6 +67,8 @@ class OpenSpace(
 
   var isActiveCallForPapers: Boolean = false
 
+  var isActiveVoting: Boolean = false
+
   fun isPendingQueue() = queueState == QueueState.PENDING
   fun isActiveQueue() = queueState == QueueState.ACTIVE
   fun isFinishedQueue() = queueState == QueueState.FINISHED
@@ -195,6 +197,11 @@ class OpenSpace(
   fun toggleCallForPapers(user: User) {
     checkIsOrganizer(user)
     isActiveCallForPapers = !isActiveCallForPapers
+  }
+
+  fun toggleVoting(user: User) {
+    checkIsOrganizer(user)
+    isActiveVoting = !isActiveVoting
   }
 
   @JsonProperty

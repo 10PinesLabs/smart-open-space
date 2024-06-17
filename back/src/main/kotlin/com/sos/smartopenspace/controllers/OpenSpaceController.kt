@@ -57,4 +57,8 @@ class OpenSpaceController(private val openSpaceService: OpenSpaceService) {
   @PutMapping("/{openSpaceId}/user/{userID}/callForPapers")
   fun callForPapers(@PathVariable userID: Long, @PathVariable openSpaceId: Long) =
     openSpaceService.toggleCallForPapers(openSpaceId, userID)
+
+  @PutMapping("/{openSpaceId}/user/{userID}/voting")
+  fun voting(@PathVariable userID: Long, @PathVariable openSpaceId: Long) =
+    openSpaceService.toggleVoting(openSpaceId, userID)
 }
