@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Button, Image, Layer, Grid, Text } from 'grommet';
 import PropTypes from 'prop-types';
 
+import { numbersToTime } from '#helpers/time';
 import Card from '#shared/Card';
 import Detail from '#shared/Detail';
 import { CalendarIcon, ClockIcon } from '#shared/icons';
@@ -10,8 +11,6 @@ import { usePushToOpenSpace } from '#helpers/routes';
 import { DeleteIcon } from '#shared/icons';
 import ButtonLoading from '#shared/ButtonLoading';
 
-const pad = (n) => (n < 10 ? '0' : '') + n;
-const toTime = (time) => (time.includes(':') ? time : time.map(pad).join(':'));
 const ButtonAction = (props) => (
   <ButtonLoading alignSelf="center" margin={{ top: 'small' }} {...props} />
 );
@@ -56,7 +55,7 @@ const OpenSpace = ({ deleteOS, startDate, endTime, id, name, startTime, urlImage
                   icon={ClockIcon}
                   text={
                     startTime && endTime
-                      ? `${toTime(startTime)} a ${toTime(endTime)} hs`
+                      ? `${numbersToTime(startTime)} a ${numbersToTime(endTime)} hs`
                       : ''
                   }
                 />
