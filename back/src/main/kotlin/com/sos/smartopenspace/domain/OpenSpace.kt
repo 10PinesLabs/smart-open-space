@@ -3,7 +3,6 @@ package com.sos.smartopenspace.domain
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.time.LocalDate
-import java.util.*
 import javax.persistence.*
 import javax.validation.Valid
 import javax.validation.constraints.NotBlank
@@ -73,10 +72,10 @@ class OpenSpace(
   fun isFinishedQueue() = queueState == QueueState.FINISHED
 
   @JsonProperty
-  fun startTime() = slots.map { it.startTime }.min()
+  fun startTime() = slots.minOfOrNull { it.startTime }
 
   @JsonProperty
-  fun endTime() = slots.map { it.endTime }.max()
+  fun endTime() = slots.maxOfOrNull { it.endTime }
 
   @JsonProperty
   fun assignableSlots() = rooms.map { room ->

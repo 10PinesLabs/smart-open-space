@@ -1,4 +1,4 @@
-package com.sos.smartopenspace.helpers
+package com.sos.smartopenspace.dto.request
 
 import com.sos.smartopenspace.domain.Room
 import com.sos.smartopenspace.domain.Slot
@@ -10,7 +10,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Size
 
-class OpenSpaceDTO(
+class OpenSpaceRequestDTO(
     @field:NotEmpty(message = "Ingrese un nombre")
     @field:NotBlank(message = "Nombre no puede ser vacío")
     val name: String,

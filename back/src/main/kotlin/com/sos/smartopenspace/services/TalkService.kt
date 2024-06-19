@@ -1,8 +1,8 @@
 package com.sos.smartopenspace.services
 
 import com.sos.smartopenspace.domain.*
-import com.sos.smartopenspace.helpers.CreateReviewDTO
-import com.sos.smartopenspace.helpers.CreateTalkDTO
+import com.sos.smartopenspace.dto.request.CreateReviewRequestDTO
+import com.sos.smartopenspace.dto.request.CreateTalkRequestDTO
 import com.sos.smartopenspace.persistence.*
 import com.sos.smartopenspace.websockets.QueueSocket
 import com.sos.smartopenspace.websockets.ScheduleSocket
@@ -61,23 +61,23 @@ class TalkService(
     return aTalk
   }
 
-  fun updateTalk(talkId: Long, userId: Long, createTalkDTO: CreateTalkDTO): Talk {
+  fun updateTalk(talkId: Long, userId: Long, createTalkRequestDTO: CreateTalkRequestDTO): Talk {
     val talk = findTalk(talkId)
-    val track: Track? = findTrack(createTalkDTO.trackId)
+    val track: Track? = findTrack(createTalkRequestDTO.trackId)
     val user = findUser(userId)
 
     user.checkOwnershipOf(talk)
     talk.update(
-      name = createTalkDTO.name,
-      description = createTalkDTO.description,
-      meetingLink = createTalkDTO.meetingLink,
+      name = createTalkRequestDTO.name,
+      description = createTalkRequestDTO.description,
+      meetingLink = createTalkRequestDTO.meetingLink,
       track = track,
       openSpace = openSpaceRepository.findFirstOpenSpaceByTalkId(talkId)
     )
 
     talk.updateDocuments(
-      updatableItemCollectionService.getNewItems(createTalkDTO.documents),
-      updatableItemCollectionService.getDeletedItems(createTalkDTO.documents, talk.documents)
+      updatableItemCollectionService.getNewItems(createTalkRequestDTO.documents),
+      updatableItemCollectionService.getDeletedItems(createTalkRequestDTO.documents, talk.documents)
       )
 
     return talk
@@ -107,14 +107,14 @@ class TalkService(
     return findTalk(talkID)
   }
 
-  fun addReview(talkID: Long, userId: Long, createReviewDTO: CreateReviewDTO): Talk {
+  fun addReview(talkID: Long, userId: Long, createReviewRequestDTO: CreateReviewRequestDTO): Talk {
     val reviewer = userService.findById(userId)
     val talk = findTalk(talkID)
 
     val newReview = Review(
-      grade = createReviewDTO.grade,
+      grade = createReviewRequestDTO.grade,
       reviewer = reviewer,
-      comment = createReviewDTO.comment
+      comment = createReviewRequestDTO.comment
       )
 
     talk.addReview(newReview)

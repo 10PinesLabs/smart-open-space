@@ -1,7 +1,7 @@
-package com.sos.smartopenspace.helpers
+package com.sos.smartopenspace.dto.request
 import javax.validation.constraints.*
 
-class CreateReviewDTO(
+class CreateReviewRequestDTO(
   @field:NotNull
   @field:Max(5)
   @field:Min(1)

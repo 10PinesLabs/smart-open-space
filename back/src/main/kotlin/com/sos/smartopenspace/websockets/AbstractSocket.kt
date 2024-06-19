@@ -1,14 +1,13 @@
 package com.sos.smartopenspace.websockets
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import com.sos.smartopenspace.domain.OpenSpace
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
 import org.springframework.web.socket.WebSocketSession
 import org.springframework.web.socket.handler.TextWebSocketHandler
 
-abstract class AbstractSocket<T> : TextWebSocketHandler() {
+abstract class AbstractSocket<T>(private val objectMapper: ObjectMapper) : TextWebSocketHandler() {
   private val sessionList = mutableMapOf<WebSocketSession, Long>()
 
   override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
@@ -20,7 +19,7 @@ abstract class AbstractSocket<T> : TextWebSocketHandler() {
   abstract fun getData(os: OpenSpace): T
 
   override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
-    val id = ObjectMapper().readTree(message.payload).asLong()
+    val id = objectMapper.readTree(message.payload).asLong()
     sessionList[session] = id
     emit(session, getData(id))
   }
@@ -31,5 +30,5 @@ abstract class AbstractSocket<T> : TextWebSocketHandler() {
   }
 
   private fun emit(session: WebSocketSession, data: T) =
-    session.sendMessage(TextMessage(jacksonObjectMapper().writeValueAsString(data)))
+    session.sendMessage(TextMessage(objectMapper.writeValueAsString(data)))
 }
