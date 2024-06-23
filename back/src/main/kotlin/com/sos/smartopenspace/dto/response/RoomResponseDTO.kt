@@ -1,8 +1,10 @@
 package com.sos.smartopenspace.dto.response
 
-data class TrackResponseDTO(
+import java.net.URL
+
+data class RoomResponseDTO(
     val id: Long,
     val name: String,
     val description: String,
-    val color: String,
+    val link: URL?,
 )

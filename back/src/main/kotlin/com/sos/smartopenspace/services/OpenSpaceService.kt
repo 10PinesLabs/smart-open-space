@@ -4,7 +4,7 @@ import com.sos.smartopenspace.domain.*
 import com.sos.smartopenspace.dto.request.CreateTalkRequestDTO
 import com.sos.smartopenspace.dto.request.OpenSpaceRequestDTO
 import com.sos.smartopenspace.persistence.*
-import com.sos.smartopenspace.translators.AssignedSlotResTranslator
+import com.sos.smartopenspace.translators.response.AssignedSlotResTranslator
 import com.sos.smartopenspace.websockets.QueueSocket
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -34,7 +34,7 @@ class OpenSpaceService(
         return openSpaceRepository.save(openSpace)
     }
 
-    fun update(userID: Long, openSpaceID: Long, openSpaceRequestDTO: OpenSpaceRequestDTO): OpenSpace? {
+    fun update(userID: Long, openSpaceID: Long, openSpaceRequestDTO: OpenSpaceRequestDTO): OpenSpace {
         val openSpace = findById(openSpaceID)
         val user = findUser(userID)
 

@@ -95,40 +95,8 @@ class OpenSpace(
       throw NotValidTrackForOpenSpaceException()
   }
 
-  private fun isTrackValid(track: Track?) =
-    !(areTracksUsed(track) && !trackIsFromThisOpenSpace(track))
-
-  private fun trackIsFromThisOpenSpace(track: Track?) = tracks.any { it == track }
-
-  private fun areTracksUsed(track: Track?) =
-    !(tracks.isEmpty() && track == null)
-
   fun containsTalk(talk: Talk) = talks.contains(talk)
   fun containsSlot(slot: TalkSlot) = slots.contains(slot)
-
-  private fun checkIsActiveCallForPapers() {
-    if (!isActiveCallForPapers)
-      throw CallForPapersClosedException()
-  }
-
-  private fun isBusySlot(room: Room, slot: Slot) = assignedSlots.any { it.startAt(slot.startTime) && it.hasDate(slot.date) && it.room == room }
-
-  private fun checkTalkBelongs(talk: Talk) {
-    if (!containsTalk(talk))
-      throw TalkDoesntBelongException()
-  }
-  private fun checkSlotBelongsToTheScheduleGrid(slot: TalkSlot) {
-    if (!containsSlot(slot))
-      throw SlotNotFoundException()
-  }
-
-  private fun checkScheduleTalk(talk: Talk, user: User, slot: TalkSlot, room: Room) {
-    checkTalkBelongs(talk)
-    checkSlotBelongsToTheScheduleGrid(slot)
-    assignedSlots.any { it.talk == talk } && throw TalkAlreadyAssignedException()
-    !toSchedule.contains(talk) && !isOrganizer(user) && throw TalkIsNotForScheduledException()
-    isBusySlot(room, slot) && throw BusySlotException()
-  }
 
   fun scheduleTalk(talk: Talk, user: User, slot: TalkSlot, room: Room): AssignedSlot {
     checkScheduleTalk(talk, user, slot, room)
@@ -152,8 +120,6 @@ class OpenSpace(
     }
   }.filter { it.second.isNotEmpty() }
 
-  private fun checkIsOrganizer(user: User) = !isOrganizer(user) && throw NotTheOrganizerException()
-
   fun activeQueue(user: User): OpenSpace {
     !isPendingQueue() && throw AlreadyActivedQueuingException()
     checkIsOrganizer(user)
@@ -174,9 +140,6 @@ class OpenSpace(
     queue.add(talk)
     return this
   }
-
-  private fun isCurrentSpeaker(user: User) = user == currentTalk()?.speaker
-  private fun isOrganizer(user: User) = user == organizer
 
   fun nextTalk(user: User): OpenSpace {
     queue.isEmpty() && throw EmptyQueueException()
@@ -266,6 +229,44 @@ class OpenSpace(
     val existingSlotIds = this.slots.map { it.id }
     this.assignedSlots.removeIf { !existingRoomIds.contains(it.room.id) || !existingSlotIds.contains(it.slot.id) }
   }
+
+
+  private fun isTrackValid(track: Track?) =
+    !(areTracksUsed(track) && !trackIsFromThisOpenSpace(track))
+
+  private fun trackIsFromThisOpenSpace(track: Track?) = tracks.any { it == track }
+
+  private fun areTracksUsed(track: Track?) =
+    !(tracks.isEmpty() && track == null)
+
+  private fun checkIsActiveCallForPapers() {
+    if (!isActiveCallForPapers)
+      throw CallForPapersClosedException()
+  }
+
+  private fun isBusySlot(room: Room, slot: Slot) = assignedSlots.any { it.startAt(slot.startTime) && it.hasDate(slot.date) && it.room == room }
+
+  private fun checkTalkBelongs(talk: Talk) {
+    if (!containsTalk(talk))
+      throw TalkDoesntBelongException()
+  }
+  private fun checkSlotBelongsToTheScheduleGrid(slot: TalkSlot) {
+    if (!containsSlot(slot))
+      throw SlotNotFoundException()
+  }
+
+  private fun checkScheduleTalk(talk: Talk, user: User, slot: TalkSlot, room: Room) {
+    checkTalkBelongs(talk)
+    checkSlotBelongsToTheScheduleGrid(slot)
+    assignedSlots.any { it.talk == talk } && throw TalkAlreadyAssignedException()
+    !toSchedule.contains(talk) && !isOrganizer(user) && throw TalkIsNotForScheduledException()
+    isBusySlot(room, slot) && throw BusySlotException()
+  }
+
+  private fun isCurrentSpeaker(user: User) = user == currentTalk()?.speaker
+  private fun isOrganizer(user: User) = user == organizer
+  private fun checkIsOrganizer(user: User) = !isOrganizer(user) && throw NotTheOrganizerException()
+
 }
 
 enum class QueueState {

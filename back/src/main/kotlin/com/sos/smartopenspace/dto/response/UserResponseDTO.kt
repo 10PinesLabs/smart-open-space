@@ -1,8 +1,7 @@
 package com.sos.smartopenspace.dto.response
 
-data class TrackResponseDTO(
+data class UserResponseDTO(
     val id: Long,
+    val email: String,
     val name: String,
-    val description: String,
-    val color: String,
 )
