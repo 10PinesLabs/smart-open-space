@@ -65,4 +65,12 @@ class OpenSpaceController(private val openSpaceService: OpenSpaceService) {
   @PutMapping("/{openSpaceId}/user/{userID}/callForPapers")
   fun callForPapers(@PathVariable userID: Long, @PathVariable openSpaceId: Long) =
       OpenSpaceResTranslator.translateFrom(openSpaceService.toggleCallForPapers(openSpaceId, userID))
+
+  @PutMapping("/{openSpaceId}/user/{userID}/voting")
+  fun voting(@PathVariable userID: Long, @PathVariable openSpaceId: Long) =
+      openSpaceService.toggleVoting(openSpaceId, userID)
+
+  @PutMapping("/{openSpaceId}/user/{userID}/showSpeakerName")
+  fun showSpeaker(@PathVariable userID: Long, @PathVariable openSpaceId: Long) =
+      openSpaceService.toggleShowSpeakerName(openSpaceId, userID)
 }

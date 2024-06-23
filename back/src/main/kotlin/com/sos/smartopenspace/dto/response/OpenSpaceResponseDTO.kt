@@ -28,4 +28,6 @@ data class OpenSpaceResponseDTO(
     val toSchedule: List<TalkResponseDTO>,
     val freeSlots: List<Pair<RoomResponseDTO, List<SlotResponseDTO>>>,
     val assignableSlots: List<Pair<RoomResponseDTO, List<SlotResponseDTO>>>,
+    val showSpeakerName: Boolean,
+    val isActiveVoting: Boolean,
 )

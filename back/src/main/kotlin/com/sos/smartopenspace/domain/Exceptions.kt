@@ -32,3 +32,6 @@ class UserNotFoundException : NotFoundException("Usuario incorrecto")
 class SlotNotFoundException : NotFoundException("No existe un slot en ese horario")
 
 class UserUnauthorizedException : UnauthorizedException("Usuario incorrecto")
+
+class RepeatedReviewForTalkException : BadRequestException("Reviewer repetido para la charla")
+class UserCannotVoteItsTalkException : BadRequestException("No puedes votar tu charla!")

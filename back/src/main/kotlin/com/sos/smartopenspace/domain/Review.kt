@@ -19,7 +19,7 @@ class Review (
   val reviewer: User,
 
   @Column(columnDefinition="VarChar")
-  val comment: String = "",
+  val comment: String?,
 
   @Id
   @GeneratedValue

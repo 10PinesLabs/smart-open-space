@@ -6,7 +6,13 @@ import React from 'react';
 import { useGetTalks } from '#api/os-client';
 import Spinner from '#shared/Spinner';
 
-export function DisplayTalks({ amountOfTalks, activeCallForPapers, tracks }) {
+export function DisplayTalks({
+  amountOfTalks,
+  activeCallForPapers,
+  tracks,
+  activeVoting,
+  showSpeakerName,
+}) {
   const { data: talks, isPending, isRejected, reload: reloadTalks } = useGetTalks();
   const pushToNewTalk = usePushToNewTalk();
   const shouldDisplayEmptyTalk = amountOfTalks === 0 && activeCallForPapers;
@@ -19,9 +25,22 @@ export function DisplayTalks({ amountOfTalks, activeCallForPapers, tracks }) {
 
   if (shouldDisplayTrackWithTalks) {
     return tracks.map((track) => (
-      <TrackWithTalks talks={talks} reloadTalks={reloadTalks} track={track} />
+      <TrackWithTalks
+        talks={talks}
+        reloadTalks={reloadTalks}
+        track={track}
+        activeVoting={activeVoting}
+        showSpeakerName={showSpeakerName}
+      />
     ));
   }
 
-  return <TalksGrid talks={talks} reloadTalks={reloadTalks} />;
+  return (
+    <TalksGrid
+      talks={talks}
+      reloadTalks={reloadTalks}
+      activeVoting={activeVoting}
+      showSpeakerName={showSpeakerName}
+    />
+  );
 }

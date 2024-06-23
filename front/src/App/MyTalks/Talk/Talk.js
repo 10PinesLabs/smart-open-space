@@ -68,12 +68,6 @@ const Talk = ({
     <Card borderColor={color} gap="small">
       <Box onClick={pushToTalk}>
         <Title>{talk.name}</Title>
-        <Markdown
-          align="center"
-          components={{ p: (props) => <Detail size="small" {...props} truncate /> }}
-        >
-          {talk.description}
-        </Markdown>
         {currentUserIsOrganizer && (
           <>
             <Detail icon={UserIcon} text={talk.speaker.name} />

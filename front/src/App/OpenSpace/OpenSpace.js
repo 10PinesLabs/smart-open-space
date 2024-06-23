@@ -18,6 +18,8 @@ import { ButtonFinishMarketplace } from './buttons/ButtonFinishMarketplace';
 import { ButtonProjector } from './buttons/ButtonProjector';
 import { ButtonStartMarketplace } from './buttons/ButtonStartMarketplace';
 import { ButtonToSwitchCallForPapers } from './buttons/ButtonToSwitchCallForPapers';
+import { ButtonToToggleVoting } from './buttons/ButtonToToggleVoting';
+import { ButtonToToggleShowSpeakerName } from './buttons/ButtonToToggleShowSpeakerName';
 import { ButtonMyTalks } from './buttons/ButtonMyTalks';
 import { QueryForm } from './QueryForm';
 import { DisplayTalks } from './DisplayTalks';
@@ -37,6 +39,8 @@ const OpenSpace = () => {
       organizer,
       pendingQueue,
       isActiveCallForPapers,
+      isActiveVoting,
+      showSpeakerName,
       amountOfTalks,
       dates,
     } = {},
@@ -102,6 +106,20 @@ const OpenSpace = () => {
               isActiveCallForPapers={isActiveCallForPapers}
             />
           )}
+          {amTheOrganizer && (
+            <ButtonToToggleVoting
+              openSpaceID={id}
+              setData={setData}
+              isActiveVoting={isActiveVoting}
+            />
+          )}
+          {amTheOrganizer && (
+            <ButtonToToggleShowSpeakerName
+              openSpaceID={id}
+              setData={setData}
+              showSpeakerName={showSpeakerName}
+            />
+          )}
           {user ? (
             <ButtonMyTalks amTheOrganizer={amTheOrganizer} />
           ) : (
@@ -115,6 +133,8 @@ const OpenSpace = () => {
           amountOfTalks={amountOfTalks}
           activeCallForPapers={isActiveCallForPapers}
           tracks={tracks}
+          activeVoting={isActiveVoting}
+          showSpeakerName={showSpeakerName}
         />
       </Box>
       {redirectToLogin && <RedirectToLoginFromOpenSpace openSpaceId={id} />}

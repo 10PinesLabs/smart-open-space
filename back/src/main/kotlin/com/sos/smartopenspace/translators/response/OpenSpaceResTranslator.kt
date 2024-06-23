@@ -32,5 +32,7 @@ object OpenSpaceResTranslator : TranslatorFrom<OpenSpace, OpenSpaceResponseDTO> 
         assignableSlots = domain.assignableSlots().map { (room, slots) ->
             RoomResTranslator.translateFrom(room) to SlotResTranslator.translateAllFrom(slots.toList())
         },
+        isActiveVoting = domain.isActiveVoting,
+        showSpeakerName = domain.showSpeakerName,
     )
 }
