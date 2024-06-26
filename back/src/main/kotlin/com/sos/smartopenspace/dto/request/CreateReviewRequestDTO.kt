@@ -7,5 +7,6 @@ class CreateReviewRequestDTO(
   @field:Min(1)
   val grade: Int,
 
-  val comment: String
+  @field:Size(max = 1000)
+  val comment: String?
 )

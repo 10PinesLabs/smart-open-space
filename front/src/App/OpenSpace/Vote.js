@@ -9,7 +9,7 @@ import Detail from '#shared/Detail';
 import { CrossHeartIcon } from '#shared/CrossHeartIcon';
 import pluralize from 'pluralize';
 
-export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
+export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks, activeVoting }) => {
   const currentUser = useUser();
   const isCurrentUser = (user) => currentUser && user.id === currentUser.id;
   const alreadyVotedByTheCurrentUser = votingUsers.some((user) => isCurrentUser(user));
@@ -17,14 +17,14 @@ export const Vote = ({ talk: { id, votingUsers, votes }, reloadTalks }) => {
 
   return (
     <RowBetween alignSelf="end">
-      {canVote && (
+      {activeVoting && canVote && (
         <Button
           plain={true}
           icon={<PlusHeartIcon />}
           onClick={() => voteTalk(id).then(() => reloadTalks())}
         />
       )}
-      {alreadyVotedByTheCurrentUser && (
+      {activeVoting && alreadyVotedByTheCurrentUser && (
         <Button
           plain={true}
           icon={<CrossHeartIcon color="status-error" />}

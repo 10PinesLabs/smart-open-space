@@ -69,6 +69,12 @@ const exchangeTalk = (talkID, slotId, roomID) =>
 const startCallForPapers = (openSpaceId) =>
   withUser(({ id }) => put(`openSpace/${openSpaceId}/user/${id}/callForPapers`));
 
+const toggleVoting = (openSpaceId) =>
+  withUser(({ id }) => put(`openSpace/${openSpaceId}/user/${id}/voting`));
+
+const toggleShowSpeakerName = (openSpaceId) =>
+  withUser(({ id }) => put(`openSpace/${openSpaceId}/user/${id}/showSpeakerName`));
+
 const activateQueue = (osId) =>
   withUser(({ id }) => put(`openSpace/activateQueue/${id}/${osId}`));
 
@@ -115,4 +121,6 @@ export {
   unvoteTalk,
   deleteTalk,
   createReview,
+  toggleVoting,
+  toggleShowSpeakerName,
 };

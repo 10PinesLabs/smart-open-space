@@ -39,7 +39,6 @@ class TalkService(
     return openSpace
   }
 
-
   fun exchangeTalk(talkID: Long, roomID: Long, slotID: Long): OpenSpace {
     val openSpace = openSpaceRepository.findFirstOpenSpaceByTalkId(talkID)
     openSpace.exchangeSlot(findTalk(talkID), findRoom(roomID), findSlot(slotID))
@@ -56,6 +55,7 @@ class TalkService(
 
   fun voteTalk(talkID: Long, userID: Long): Talk {
     val aTalk = findTalk(talkID)
+    if (aTalk.speaker.id == userID) throw UserCannotVoteItsTalkException()
     val aUser = findUser(userID)
     aTalk.addVoteBy(aUser)
     return aTalk
@@ -108,8 +108,9 @@ class TalkService(
   }
 
   fun addReview(talkID: Long, userId: Long, createReviewRequestDTO: CreateReviewRequestDTO): Talk {
-    val reviewer = userService.findById(userId)
     val talk = findTalk(talkID)
+    if (talk.reviews.any { it.reviewer.id == userId }) throw RepeatedReviewForTalkException()
+    val reviewer = userService.findById(userId)
 
     val newReview = Review(
       grade = createReviewRequestDTO.grade,

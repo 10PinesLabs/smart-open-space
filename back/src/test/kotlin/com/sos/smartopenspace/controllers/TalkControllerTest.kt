@@ -160,7 +160,7 @@ class TalkControllerTest {
   @Test
   fun `a talk voted by user returns an ok status response and increase talk votes`() {
     val aUser = anySavedUser()
-    val talk = anySavedTalk(aUser)
+    val talk = anySavedTalk(anySavedUser())
 
     mockMvc.perform(
       MockMvcRequestBuilders.put("/talk/${talk.id}/user/${aUser.id}/vote")
