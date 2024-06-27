@@ -1,6 +1,6 @@
 package com.sos.smartopenspace.domain
 
-import com.sos.smartopenspace.Validators.HexColor
+import com.sos.smartopenspace.validators.HexColor
 import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.Id

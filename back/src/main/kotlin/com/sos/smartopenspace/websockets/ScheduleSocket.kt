@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.sos.smartopenspace.domain.OpenSpace
 import com.sos.smartopenspace.dto.response.AssignedSlotResponseDTO
 import com.sos.smartopenspace.services.OpenSpaceService
-import com.sos.smartopenspace.translators.AssignedSlotResTranslator
+import com.sos.smartopenspace.translators.response.AssignedSlotResTranslator
 import org.springframework.stereotype.Component
 
 @Component

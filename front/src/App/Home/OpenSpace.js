@@ -97,11 +97,9 @@ OpenSpace.propTypes = {
     PropTypes.string,
     PropTypes.arrayOf(PropTypes.number),
     PropTypes.instanceOf(Date),
-  ]).isRequired,
-  endTime: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.number)])
-    .isRequired,
-  startTime: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.number)])
-    .isRequired,
+  ]),
+  endTime: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.number)]),
+  startTime: PropTypes.oneOfType([PropTypes.string, PropTypes.arrayOf(PropTypes.number)]),
   id: PropTypes.number.isRequired,
   name: PropTypes.string.isRequired,
   urlImage: PropTypes.string.isRequired,

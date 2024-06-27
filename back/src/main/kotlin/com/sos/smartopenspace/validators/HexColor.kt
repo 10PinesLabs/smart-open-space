@@ -1,4 +1,4 @@
-package com.sos.smartopenspace.Validators
+package com.sos.smartopenspace.validators
 
 import javax.validation.Constraint
 import javax.validation.ConstraintValidator
