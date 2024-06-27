@@ -70,18 +70,14 @@ tasks.withType<KotlinCompile> {
 }
 
 
-// Enable when require to use flyway plugin
-/*
 flyway {
-  url = "jdbc:postgresql://localhost:6543/sos"
   driver = "org.postgresql.Driver"
-  user = <db-user>
-  password = <db-password>
+  url = System.getenv("JDBC_DATABASE_URL")
+  user = System.getenv("JDBC_DATABASE_USERNAME")
+  password = System.getenv("JDBC_DATABASE_PASSWORD")
   baselineOnMigrate = true
   locations = arrayOf("filesystem:src/main/resources/db/migration")
 }
-*/
-
 
 tasks.jacocoTestReport {
   reports {
