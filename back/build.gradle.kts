@@ -78,7 +78,6 @@ flyway {
   baselineOnMigrate = true
   locations = arrayOf("filesystem:src/main/resources/db/migration")
 }
-g
 
 tasks.jacocoTestReport {
   reports {
