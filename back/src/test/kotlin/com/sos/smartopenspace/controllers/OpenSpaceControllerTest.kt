@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.transaction.annotation.Transactional
-import java.net.URL
+import java.net.URI
 import java.time.LocalDate
 import java.time.LocalTime
 
@@ -121,7 +121,7 @@ class OpenSpaceControllerTest {
         val anOpenSpace = repoOpenSpace.save(anyOpenSpaceWith(user, setOf(track)))
         anOpenSpace.toggleCallForPapers(user)
         val aMeetingLink = "https://aLink"
-        val aDocument = Document("a document", URL("https://www.lipsum.com/"))
+        val aDocument = Document("a document", URI("https://www.lipsum.com/").toURL())
 
         mockMvc.perform(
             MockMvcRequestBuilders.post("/openSpace/talk/${user.id}/${anOpenSpace.id}")

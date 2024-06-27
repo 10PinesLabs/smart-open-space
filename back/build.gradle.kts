@@ -92,3 +92,9 @@ val testCoverage by tasks.registering {
   dependsOn(":test", ":jacocoTestReport")
   tasks.findByName("jacocoTestReport")?.mustRunAfter(tasks.findByName("test"))
 }
+
+// This make to not add version in jar and fat-jar file name
+tasks.jar {
+  archiveBaseName=project.name
+  project.version=""
+}
