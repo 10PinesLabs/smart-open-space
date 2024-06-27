@@ -109,6 +109,23 @@ Para instalar dependencias y levantar el proyecto:
 yarn && yarn watch
 ```
 
+### Flyway plugin
+
+Util para realizar diferentes acciones de Flyway como migrations, repairs de checksums de los archivos de migración, etc.
+
+Requiere configurar las siguientes environments:
+  - `JDBC_DATABASE_URL`: url del jdbc.
+  - `JDBC_DATABASE_USERNAME`: username de la db.
+  - `JDBC_DATABASE_PASSWORD`: password de la db.
+
+Ejemplo:
+
+```text
+JDBC_DATABASE_URL=jdbc:postgresql://localhost:6543/sos
+JDBC_DATABASE_USERNAME=openminded
+JDBC_DATABASE_PASSWORD=openheart
+```
+
 ## :scroll: Documentación
 
 ### Diagrama de Arquitectura
