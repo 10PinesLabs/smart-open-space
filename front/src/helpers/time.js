@@ -53,7 +53,7 @@ export function sortTimes(times) {
  * Get new Date from date string valid format or array with the following structure ([year, month-1, day])
  **/
 export const toDate = (date) =>
-  isStringInput(date) ? new Date(date) : getDateFromArray(date);
+  isStringInput(date) ? getDateFromArray(date.split('-')) : getDateFromArray(date);
 
 export const byDate = (date) => (slot) => isEqual(toDate(slot.date), date);
 

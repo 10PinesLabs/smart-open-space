@@ -1,4 +1,7 @@
+# IDE
 .idea
+.vscode
+
 .directory 
 /db-data/
 
