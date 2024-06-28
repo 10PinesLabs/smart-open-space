@@ -13,7 +13,7 @@ abstract class SlotResponseDTO(
     val endTime: LocalTime,
     val date: LocalDate,
     val type: String,
-    val isAssignable: Boolean,
+    val assignable: Boolean,
 )
 
 class TalkSlotResponseDTO(
